@@ -163,11 +163,11 @@ function Hero() {
         ))}
       </nav>
 
-      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[15.5vw] whitespace-nowrap sm:mt-4">
+      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[12.6vw] whitespace-nowrap sm:mt-4">
         Olá, sou Lucas
       </h1>
 
-      <div className="pointer-events-none relative z-10 -mt-[7vw] flex justify-center sm:absolute sm:inset-x-0 sm:top-[8vw] sm:mt-0">
+      <div className="pointer-events-none relative z-10 -mt-[4vw] flex justify-center sm:absolute sm:inset-x-0 sm:top-[10vw] sm:mt-0">
         <div ref={headRef} className="will-change-transform [transform-style:preserve-3d]">
           <img
             src={avatarHead}
