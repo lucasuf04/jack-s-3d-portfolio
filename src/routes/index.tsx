@@ -298,7 +298,7 @@ function Contact() {
         Have a project in mind? Drop me a line and let's make it unforgettable.
       </p>
       <a href="mailto:hello@jack.studio" className="btn-cta mt-10 rounded-full px-10 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-transform hover:scale-105">
-        hello@jack.studio
+        CONTATO
       </a>
       <p className="mt-16 text-xs uppercase tracking-widest text-muted-foreground">{"\n"}</p>
     </footer>
