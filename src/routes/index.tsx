@@ -1,36 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import jackHead from "@/assets/jack-head.png";
+import avatarHead from "@/assets/avatar-head.png";
 import iconMoon from "@/assets/icon-moon.png";
 import iconCube from "@/assets/icon-cube.png";
 import iconSmiley from "@/assets/icon-smiley.png";
 import iconCursor from "@/assets/icon-cursor.png";
-import showcaseTravel from "@/assets/showcase-travel.jpg";
-import showcaseCode from "@/assets/showcase-code.jpg";
-import showcaseBrand from "@/assets/showcase-brand.jpg";
-import showcaseFintech from "@/assets/showcase-fintech.jpg";
-import projectGarden from "@/assets/project-garden.jpg";
-import projectForest from "@/assets/project-forest.jpg";
-import projectLavender from "@/assets/project-lavender.jpg";
-import projectViolet from "@/assets/project-violet.jpg";
-import projectGolden from "@/assets/project-golden.jpg";
-import projectDunes from "@/assets/project-dunes.jpg";
+import showcaseReel from "@/assets/showcase-reel.jpg";
+import showcaseMotion from "@/assets/showcase-motion.jpg";
+import showcaseSaas from "@/assets/showcase-saas.jpg";
+import showcaseYoutube from "@/assets/showcase-youtube.jpg";
+import projectTimeline from "@/assets/project-timeline.jpg";
+import projectMotion from "@/assets/project-motion.jpg";
+import projectReel from "@/assets/project-reel.jpg";
+import projectPodcast from "@/assets/project-podcast.jpg";
+import projectSneaker from "@/assets/project-sneaker.jpg";
+import projectLens from "@/assets/project-lens.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Hi, I'm Jack — 3D Creator Portfolio" },
+      { title: "Lucas — Editor de Vídeo e Motion Designer" },
       {
         name: "description",
         content:
-          "Jack is a 3D creator offering 3D modeling, rendering, motion design, branding and web design.",
+          "Portfólio de edição de vídeo e motion design: vídeos para redes sociais, YouTube, Remotion, comerciais e demonstrações de apps e SaaS.",
       },
-      { property: "og:title", content: "Hi, I'm Jack — 3D Creator Portfolio" },
+      { property: "og:title", content: "Lucas — Editor de Vídeo e Motion Designer" },
       {
         property: "og:description",
         content:
-          "3D modeling, rendering, motion design, branding and web design by Jack.",
+          "Vídeos dinâmicos, modernos e visualmente impactantes para Instagram, YouTube, marcas e SaaS.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -40,44 +40,58 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV = [
-  { label: "About", href: "#about" },
-  { label: "Price", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Sobre", href: "#about" },
+  { label: "Serviços", href: "#services" },
+  { label: "Projetos", href: "#projects" },
+  { label: "Contato", href: "#contact" },
 ];
 
-const SHOWCASE = [showcaseTravel, showcaseCode, showcaseBrand, showcaseFintech];
+const SHOWCASE = [
+  { src: showcaseReel, alt: "Vídeo vertical para Reels" },
+  { src: showcaseMotion, alt: "Motion design com formas 3D" },
+  { src: showcaseSaas, alt: "Vídeo de demonstração de app" },
+  { src: showcaseYoutube, alt: "Vídeo para YouTube" },
+];
 
 const ABOUT_TEXT =
-  "With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!";
+  "Sou editor de vídeo e motion designer, atuando há aproximadamente 3 anos na criação de conteúdos audiovisuais. Meu trabalho é focado em vídeos para mídias sociais, como Instagram, YouTube e outras plataformas digitais, além do desenvolvimento de motions profissionais e vídeos com o intuito de demonstrar funções de apps e SaaS. Busco transformar ideias em conteúdos dinâmicos, modernos e visualmente impactantes, combinando edição estratégica, animações, efeitos e técnicas de motion design para criar vídeos que prendam a atenção e transmitam mensagens com qualidade.";
+
+const TOOLS_TEXT =
+  "Trabalho com ferramentas como Adobe Premiere Pro, After Effects e Remotion, explorando também novas tecnologias e soluções com inteligência artificial para desenvolver projetos criativos, personalizados e de alto nível.";
+
+const TOOLS = ["Premiere Pro", "After Effects", "Remotion", "Inteligência Artificial"];
 
 const SERVICES = [
   {
-    title: "3D Modeling",
-    text: "Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.",
+    title: "Edição de Vídeos para Redes Sociais",
+    text: "Edição dinâmica e estratégica para Instagram Reels, YouTube Shorts, TikTok e outras plataformas. Cortes precisos, legendas animadas, efeitos visuais e ritmo pensado para manter a audiência engajada.",
   },
   {
-    title: "Rendering",
-    text: "High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.",
+    title: "Motion Design Profissional",
+    text: "Criação de animações modernas e profissionais, com elementos gráficos, transições, tipografia animada e efeitos visuais que dão mais personalidade e impacto aos vídeos.",
   },
   {
-    title: "Motion Design",
-    text: "Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.",
+    title: "Vídeos com Remotion",
+    text: "Desenvolvimento de vídeos personalizados utilizando código e animações avançadas. Uma abordagem que permite criar composições modernas, movimentos fluidos e experiências visuais diferenciadas.",
   },
   {
-    title: "Branding",
-    text: "Crafting cohesive visual identities — from logos to full brand systems — that communicate a clear and memorable presence.",
+    title: "Edição para YouTube",
+    text: "Produção e edição de vídeos de formato mais longo, com narrativa visual, efeitos, sound design, animações e recursos que tornam o conteúdo mais envolvente e profissional.",
   },
   {
-    title: "Web Design",
-    text: "Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.",
+    title: "Vídeos Promocionais e Comerciais",
+    text: "Criação de vídeos para marcas, empresas e produtos, destacando diferenciais, transmitindo valor e apresentando informações de maneira criativa e visualmente atrativa.",
+  },
+  {
+    title: "Edição de Conteúdo em Escala",
+    text: "Edição de vídeos mais simples e objetivos para marcas e criadores que precisam de um grande volume de publicações. Processos ágeis, cortes, legendas, ajustes e padronização visual para manter a frequência de postagens nas redes sociais.",
   },
 ];
 
 const PROJECTS = [
-  { kind: "Client", name: "Nextlevel Studio", images: [projectGarden, projectForest] },
-  { kind: "Personal", name: "Aura Brand Identity", images: [projectLavender, projectViolet] },
-  { kind: "Client", name: "Solaris Digital", images: [projectGolden, projectDunes] },
+  { kind: "Cliente", name: "Vídeo de lançamento de SaaS", images: [projectTimeline, projectMotion] },
+  { kind: "Pessoal", name: "Série de Reels e cortes de podcast", images: [projectReel, projectPodcast] },
+  { kind: "Cliente", name: "Comercial de produto", images: [projectSneaker, projectLens] },
 ];
 
 function ContactButton({ className = "" }: { className?: string }) {
@@ -91,23 +105,56 @@ function ContactButton({ className = "" }: { className?: string }) {
   );
 }
 
-function Hero() {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+/** Smoothly eases the head toward the cursor position (no React re-renders per frame). */
+function useCursorFollow() {
+  const ref = useRef<HTMLDivElement>(null);
 
-  const onMove = (e: MouseEvent<HTMLElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setTilt({
-      x: (e.clientX - r.left) / r.width - 0.5,
-      y: (e.clientY - r.top) / r.height - 0.5,
-    });
-  };
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const target = { x: 0, y: 0 };
+    const current = { x: 0, y: 0 };
+    let frame = 0;
+
+    const onMove = (e: PointerEvent) => {
+      target.x = (e.clientX / window.innerWidth) * 2 - 1;
+      target.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    const onLeave = () => {
+      target.x = 0;
+      target.y = 0;
+    };
+
+    const tick = () => {
+      const ease = 0.06;
+      current.x += (target.x - current.x) * ease;
+      current.y += (target.y - current.y) * ease;
+      const el = ref.current;
+      if (el) {
+        const { x, y } = current;
+        el.style.transform = `perspective(1000px) translate3d(${x * 28}px, ${y * 18}px, 0) rotateY(${x * 18}deg) rotateX(${-y * 12}deg) rotateZ(${x * 3}deg)`;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onLeave);
+    frame = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return ref;
+}
+
+function Hero() {
+  const headRef = useCursorFollow();
 
   return (
-    <section
-      className="relative flex flex-col overflow-hidden px-4 pt-6 sm:min-h-svh sm:px-10"
-      onMouseMove={onMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-    >
+    <section className="relative flex flex-col overflow-hidden px-4 pt-6 sm:min-h-svh sm:px-10">
       <nav className="relative z-20 flex items-center justify-between text-xs font-semibold uppercase tracking-wider sm:text-base md:px-12">
         {NAV.map((n) => (
           <a key={n.label} href={n.href} className="transition-opacity hover:opacity-70">
@@ -116,27 +163,25 @@ function Hero() {
         ))}
       </nav>
 
-      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[18.5vw] whitespace-nowrap sm:mt-4">
-        Hi, I'm Jack
+      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[15.5vw] whitespace-nowrap sm:mt-4">
+        Olá, sou Lucas
       </h1>
 
       <div className="pointer-events-none relative z-10 -mt-[7vw] flex justify-center sm:absolute sm:inset-x-0 sm:top-[8vw] sm:mt-0">
-        <img
-          src={jackHead}
-          alt="3D portrait of Jack"
-          width={1024}
-          height={1024}
-          className="animate-rise-in w-[88vw] max-w-[640px] drop-shadow-[0_30px_40px_oklch(0_0_0/0.6)] sm:w-[48vw]"
-          style={{
-            transform: `perspective(900px) rotateY(${tilt.x * 14}deg) rotateX(${-tilt.y * 10}deg) translate(${tilt.x * 18}px, ${tilt.y * 12}px)`,
-            transition: "transform 0.4s ease-out",
-          }}
-        />
+        <div ref={headRef} className="will-change-transform [transform-style:preserve-3d]">
+          <img
+            src={avatarHead}
+            alt="Avatar 3D do Lucas"
+            width={766}
+            height={900}
+            className="animate-rise-in w-[72vw] max-w-[520px] drop-shadow-[0_30px_40px_oklch(0_0_0/0.6)] sm:w-[36vw]"
+          />
+        </div>
       </div>
 
       <div className="relative z-20 mt-6 flex flex-col items-start justify-between gap-6 pb-8 sm:mt-auto sm:flex-row sm:items-end">
-        <p className="max-w-[18rem] text-sm uppercase leading-snug sm:text-base">
-          A 3D creator driven by crafting striking and unforgettable projects
+        <p className="max-w-[20rem] text-sm uppercase leading-snug sm:text-base">
+          Editor de vídeo e motion designer criando conteúdos que prendem a atenção
         </p>
         <ContactButton />
       </div>
@@ -147,17 +192,17 @@ function Hero() {
 function Showcase() {
   const row = [...SHOWCASE, ...SHOWCASE];
   return (
-    <section aria-label="Selected work" className="space-y-4 overflow-hidden py-10">
+    <section aria-label="Trabalhos em destaque" className="space-y-4 overflow-hidden py-10">
       {["animate-marquee-left", "animate-marquee-right"].map((anim, r) => (
         <div key={anim} className={`flex w-max gap-4 ${anim}`}>
-          {(r ? [...row].reverse() : row).map((src, i) => (
+          {(r ? [...row].reverse() : row).map((item, i) => (
             <img
               key={i}
-              src={src}
-              alt=""
+              src={item.src}
+              alt={item.alt}
               loading="lazy"
-              width={765}
-              height={471}
+              width={755}
+              height={459}
               className="h-40 w-auto rounded-xl object-cover sm:h-56"
             />
           ))}
@@ -200,8 +245,8 @@ function About() {
     };
   }, []);
 
-  const chars = ABOUT_TEXT.split("");
-  const lit = Math.round(progress * chars.length);
+  const words = ABOUT_TEXT.split(" ");
+  const lit = Math.round(progress * words.length);
 
   return (
     <section id="about" className="relative overflow-hidden px-6 py-24 sm:py-36">
@@ -211,18 +256,29 @@ function About() {
       <img src={iconCursor} alt="" loading="lazy" width={816} height={816} className="animate-float absolute bottom-10 right-[8%] w-20 [animation-delay:-1s] sm:w-36" />
 
       <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-        <h2 className="font-display-black text-chrome text-[17vw] sm:text-[9rem]">About me</h2>
+        <h2 className="font-display-black text-chrome text-[15vw] whitespace-nowrap sm:text-[9rem]">Sobre mim</h2>
         <p ref={ref} className="mt-12 max-w-2xl text-lg font-semibold leading-relaxed sm:text-2xl" aria-label={ABOUT_TEXT}>
-          {chars.map((c, i) => (
+          {words.map((w, i) => (
             <span
               key={i}
               aria-hidden="true"
               className={`transition-colors duration-300 ${i < lit ? "text-foreground" : "text-muted"}`}
             >
-              {c}
+              {w}{" "}
             </span>
           ))}
         </p>
+        <p className="mt-10 max-w-xl text-base text-muted-foreground sm:text-lg">{TOOLS_TEXT}</p>
+        <ul className="mt-6 flex flex-wrap justify-center gap-3">
+          {TOOLS.map((t) => (
+            <li
+              key={t}
+              className="rounded-full border border-outline px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] sm:text-sm"
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
         <ContactButton className="mt-14" />
       </div>
     </section>
@@ -232,7 +288,7 @@ function About() {
 function Services() {
   return (
     <section id="services" className="relative z-10 rounded-[2.5rem] bg-surface px-6 py-20 text-surface-foreground sm:rounded-[3.5rem] sm:py-28">
-      <h2 className="font-display-black text-center text-[18vw] sm:text-[9rem]">Services</h2>
+      <h2 className="font-display-black text-center text-[16vw] sm:text-[9rem]">Serviços</h2>
       <ol className="mx-auto mt-16 max-w-5xl">
         {SERVICES.map((s, i) => (
           <li
@@ -256,7 +312,7 @@ function Services() {
 function Projects() {
   return (
     <section id="projects" className="-mt-16 bg-background px-4 pb-24 pt-36 sm:px-10">
-      <h2 className="font-display-black text-chrome text-center text-[18vw] sm:text-[9rem]">Project</h2>
+      <h2 className="font-display-black text-chrome text-center text-[16vw] sm:text-[9rem]">Projetos</h2>
       <div className="mx-auto mt-16 max-w-6xl space-y-10">
         {PROJECTS.map((p, i) => (
           <article
@@ -276,12 +332,12 @@ function Projects() {
                 href="#contact"
                 className="shrink-0 rounded-full border-2 border-outline px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background sm:px-10 sm:py-4 sm:text-sm"
               >
-                Live project
+                Ver projeto
               </a>
             </header>
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-[2fr_3fr] sm:gap-6">
-              <img src={p.images[0]} alt={`${p.name} preview`} loading="lazy" width={1024} height={640} className="h-44 w-full rounded-[2rem] object-cover sm:h-72" />
-              <img src={p.images[1]} alt={`${p.name} detail`} loading="lazy" width={1536} height={640} className="h-44 w-full rounded-[2rem] object-cover sm:h-72" />
+              <img src={p.images[0]} alt={`${p.name} — prévia`} loading="lazy" width={502} height={372} className="h-44 w-full rounded-[2rem] object-cover sm:h-72" />
+              <img src={p.images[1]} alt={`${p.name} — detalhe`} loading="lazy" width={502} height={372} className="h-44 w-full rounded-[2rem] object-cover sm:h-72" />
             </div>
           </article>
         ))}
@@ -293,9 +349,9 @@ function Projects() {
 function Contact() {
   return (
     <footer id="contact" className="flex flex-col items-center px-6 pb-16 pt-10 text-center">
-      <h2 className="font-display-black text-chrome text-[16vw] sm:text-[8rem]">Let's talk</h2>
+      <h2 className="font-display-black text-chrome text-[14vw] sm:text-[8rem]">Vamos conversar</h2>
       <p className="mt-8 max-w-md text-lg text-muted-foreground">
-        Have a project in mind? Drop me a line and let's make it unforgettable.
+        Tem um projeto em mente? Me chame e vamos transformar sua ideia em um vídeo que prende a atenção.
       </p>
       <a href="mailto:hello@jack.studio" className="btn-cta mt-10 rounded-full px-10 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-transform hover:scale-105">
         CONTATO

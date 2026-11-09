@@ -81,10 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Jack — 3D Creator Portfolio" },
-      { name: "description", content: "Portfolio of Jack, a 3D creator crafting striking and unforgettable projects." },
-      { property: "og:title", content: "Jack — 3D Creator Portfolio" },
-      { property: "og:description", content: "Portfolio of Jack, a 3D creator crafting striking and unforgettable projects." },
+      { title: "Lucas — Editor de Vídeo e Motion Designer" },
+      { name: "description", content: "Portfólio de edição de vídeo e motion design para redes sociais, YouTube, marcas e SaaS." },
+      { property: "og:title", content: "Lucas — Editor de Vídeo e Motion Designer" },
+      { property: "og:description", content: "Portfólio de edição de vídeo e motion design para redes sociais, YouTube, marcas e SaaS." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -110,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
