@@ -104,7 +104,7 @@ function Hero() {
 
   return (
     <section
-      className="relative flex min-h-svh flex-col overflow-hidden px-4 pt-6 sm:px-10"
+      className="relative flex flex-col overflow-hidden px-4 pt-6 sm:min-h-svh sm:px-10"
       onMouseMove={onMove}
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     >
@@ -116,11 +116,11 @@ function Hero() {
         ))}
       </nav>
 
-      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[15.5vw] whitespace-nowrap sm:mt-4">
+      <h1 className="font-display-black text-chrome relative z-0 mt-6 text-center text-[18.5vw] whitespace-nowrap sm:mt-4">
         Hi, I'm Jack
       </h1>
 
-      <div className="pointer-events-none absolute inset-x-0 top-[13vw] z-10 flex justify-center sm:top-[9vw]">
+      <div className="pointer-events-none relative z-10 -mt-[7vw] flex justify-center sm:absolute sm:inset-x-0 sm:top-[8vw] sm:mt-0">
         <img
           src={jackHead}
           alt="3D portrait of Jack"
@@ -134,7 +134,7 @@ function Hero() {
         />
       </div>
 
-      <div className="relative z-20 mt-auto flex flex-col items-start justify-between gap-6 pb-8 sm:flex-row sm:items-end">
+      <div className="relative z-20 mt-6 flex flex-col items-start justify-between gap-6 pb-8 sm:mt-auto sm:flex-row sm:items-end">
         <p className="max-w-[18rem] text-sm uppercase leading-snug sm:text-base">
           A 3D creator driven by crafting striking and unforgettable projects
         </p>
