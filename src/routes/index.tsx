@@ -86,7 +86,7 @@ function ContactButton({ className = "" }: { className?: string }) {
       href="#contact"
       className={`btn-cta inline-flex items-center justify-center rounded-full px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-transform hover:scale-105 sm:text-sm ${className}`}
     >
-      Contact me
+      CONTATE-ME
     </a>
   );
 }
