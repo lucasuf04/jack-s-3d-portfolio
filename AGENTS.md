@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- The portfolio is a single page in `src/routes/index.tsx` with sections as local functions; nav links are in-page anchors, so keep section ids stable when editing.
+- Visual tokens (chrome headline gradient, CTA gradient, light services surface) live in `src/styles.css` as utilities; use them instead of inline colors.
