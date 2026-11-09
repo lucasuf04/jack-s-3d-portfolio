@@ -300,7 +300,7 @@ function Contact() {
       <a href="mailto:hello@jack.studio" className="btn-cta mt-10 rounded-full px-10 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-transform hover:scale-105">
         hello@jack.studio
       </a>
-      <p className="mt-16 text-xs uppercase tracking-widest text-muted-foreground">© 2026 Jack — 3D Creator</p>
+      <p className="mt-16 text-xs uppercase tracking-widest text-muted-foreground">{"\n"}</p>
     </footer>
   );
 }
