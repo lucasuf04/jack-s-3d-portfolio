@@ -88,32 +88,39 @@ const NAV = [
 
 const SHOWCASE = [
   {
-    src: projectChrisThumb1,
-    alt: "Edição de Conteúdo em Escala",
-    title: "Edição de Conteúdo em Escala",
-    tag: "9:16 Vertical",
-    videoUrl: "/videos/chris-conteudo-escala.mp4",
-  },
-  {
     src: projectMercadoPago,
-    alt: "Demonstração de App: Mercado Pago",
-    title: "Demo Comercial de App & SaaS (Mercado Pago)",
-    tag: "UI/UX & Produto",
+    alt: "Demonstração de Apps & Plataformas SaaS",
+    title: "Demonstração de Apps & Plataformas SaaS",
+    tag: "01 • Apps & SaaS",
     videoUrl: "/videos/mercadopago-demo.mp4",
   },
   {
-    src: projectDiscord,
-    alt: "Walkthrough de Plataforma: Discord",
-    title: "Demonstração de Software & Interface (Discord)",
-    tag: "UI & Motion",
-    videoUrl: "/videos/discord-demo.mp4",
+    src: projectReel,
+    alt: "Edição de Vídeos para Redes Sociais",
+    title: "Edição de Vídeos para Redes Sociais",
+    tag: "02 • Redes Sociais",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
     src: showcaseMotion,
-    alt: "Motion design com formas 3D",
-    title: "Motion Design & Animação 3D",
-    tag: "Motion Graphics",
+    alt: "Motion Design Profissional",
+    title: "Motion Design Profissional",
+    tag: "03 • Motion Design",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+  },
+  {
+    src: showcaseYoutube,
+    alt: "Edição para YouTube & Podcasts",
+    title: "Edição para YouTube & Podcasts",
+    tag: "04 • YouTube & Podcasts",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+  },
+  {
+    src: projectChrisThumb1,
+    alt: "Edição de Conteúdo em Escala",
+    title: "Edição de Conteúdo em Escala",
+    tag: "05 • Conteúdo em Escala",
+    videoUrl: "/videos/chris-conteudo-escala.mp4",
   },
 ];
 
@@ -152,7 +159,7 @@ export interface ProjectItem {
   id: string;
   kind: string;
   name: string;
-  category: "all" | "reels" | "motion" | "youtube" | "commercial";
+  category: "all" | "saas" | "social" | "motion" | "youtube" | "escala";
   aspect: "horizontal" | "vertical";
   description: string;
   tools: string[];
@@ -163,82 +170,69 @@ export interface ProjectItem {
 
 const PROJECTS: ProjectItem[] = [
   {
-    id: "conteudo-escala",
-    kind: "Cliente — Produção Contínua",
-    name: "Edição de Conteúdo em Escala",
-    category: "reels",
-    aspect: "vertical",
-    description:
-      "Edição ágil e estratégica voltada para marcas e criadores que necessitam de alto volume de postagens com consistência visual. Cortes precisos, legendas dinâmicas animadas, ritmo acelerado e retenção pensada para prender a atenção no Instagram Reels, TikTok e Shorts.",
-    tools: ["Premiere Pro"],
-    metric: "Alta Retenção & Consistência",
-    images: [projectChrisThumb1],
-    videoUrl: "/videos/chris-conteudo-escala.mp4",
-  },
-  {
-    id: "app-mercadopago",
-    kind: "Demonstração de App & SaaS",
-    name: "Demonstração de App: Mercado Pago & Rendimento",
-    category: "commercial",
+    id: "demo-apps-saas",
+    kind: "Serviço 01 — Apps & SaaS",
+    name: "Demonstração de Apps & Plataformas SaaS",
+    category: "saas",
     aspect: "horizontal",
     description:
-      "Vídeo comercial de alta conversão demonstrando a experiência e benefícios do aplicativo do Mercado Pago. Interface animada com motion graphics dinâmicos (UI/UX), transições de telas e gráficos de rendimento para onboarding e aquisição de usuários.",
+      "Vídeos modernos focados em demonstrar produtos digitais, aplicativos e plataformas SaaS com máxima clareza. Motion graphics de interface (UI/UX), animação de telas, transições fluidas e destaques visuais de funcionalidades voltados para onboarding e conversão.",
     tools: ["Premiere Pro", "After Effects"],
     metric: "UI/UX Motion & Alta Conversão",
     images: [projectMercadoPago],
     videoUrl: "/videos/mercadopago-demo.mp4",
   },
   {
-    id: "app-discord",
-    kind: "Tech & Software Walkthrough",
-    name: "Demonstração de Plataforma: Interface do Discord",
-    category: "commercial",
-    aspect: "horizontal",
-    description:
-      "Walkthrough dinâmico de interface de software, explorando navegação entre canais, animações de chat, tipografia e sound design sincronizado para apresentar funcionalidades com clareza e ritmo.",
-    tools: ["Premiere Pro", "After Effects"],
-    metric: "Walkthrough Fluido de Interface",
-    images: [projectDiscord],
-    videoUrl: "/videos/discord-demo.mp4",
-  },
-  {
-    id: "reels-series",
-    kind: "Criador de Conteúdo",
-    name: "Série de Reels e cortes dinâmicos de podcast",
-    category: "reels",
+    id: "edicao-redes-sociais",
+    kind: "Serviço 02 — Redes Sociais",
+    name: "Edição de Vídeos para Redes Sociais",
+    category: "social",
     aspect: "vertical",
     description:
-      "Cortes estratégicos verticais com gancho forte nos primeiros 3 segundos, legendas dinâmicas animadas palavra por palavra, efeitos sonoros pontuais e b-rolls para maximizar a taxa de retenção da audiência no Instagram e TikTok.",
+      "Edição dinâmica e estratégica para Instagram Reels, YouTube Shorts, TikTok e outras plataformas. Cortes precisos, legendas animadas, efeitos visuais e ritmo pensado para manter a audiência engajada.",
     tools: ["Premiere Pro", "After Effects"],
     metric: "+2.4M Visualizações Orgânicas",
     images: [projectReel],
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
-    id: "youtube-documentary",
-    kind: "Canal do YouTube",
-    name: "Edição narrativa e documental para YouTube",
+    id: "motion-design-profissional",
+    kind: "Serviço 03 — Motion Design",
+    name: "Motion Design Profissional",
+    category: "motion",
+    aspect: "horizontal",
+    description:
+      "Criação de animações modernas e profissionais, com elementos gráficos, transições, tipografia animada e efeitos visuais que dão mais personalidade e impacto aos vídeos.",
+    tools: ["After Effects"],
+    metric: "Design de Alto Impacto Visual",
+    images: [showcaseMotion],
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+  },
+  {
+    id: "edicao-youtube-podcasts",
+    kind: "Serviço 04 — YouTube & Podcasts",
+    name: "Edição para YouTube & Podcasts",
     category: "youtube",
     aspect: "horizontal",
     description:
-      "Edição completa de vídeo de 15 minutos com narrativa envolvente, pesquisa de ilustrações visuais, motion graphics explicativos de dados, mapas animados e sound design que guia as emoções do espectador.",
+      "Produção e edição de vídeos de formato mais longo, com narrativa visual, efeitos, sound design, animações e recursos que tornam o conteúdo mais envolvente e profissional.",
     tools: ["Premiere Pro", "After Effects"],
     metric: "74% Retenção Média",
     images: [showcaseYoutube],
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
-    id: "motion-graphics",
-    kind: "Motion Design",
-    name: "Motion Graphics & Identidade Visual Animada",
-    category: "motion",
-    aspect: "horizontal",
+    id: "edicao-conteudo-escala",
+    kind: "Serviço 05 — Conteúdo em Escala",
+    name: "Edição de Conteúdo em Escala",
+    category: "escala",
+    aspect: "vertical",
     description:
-      "Animações dinâmicas de tipografia, transições fluidas, formas abstratas e elementos visuais de alto impacto desenvolvidos no After Effects para valorizar a comunicação de marcas e produtos.",
-    tools: ["After Effects"],
-    metric: "Animação Fluida & Dinâmica",
-    images: [showcaseMotion],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+      "Edição de vídeos mais simples e objetivos para marcas e criadores que precisam de um grande volume de publicações. Processos ágeis no Premiere Pro, cortes precisos, legendas dinâmicas e padronização visual para manter a frequência de postagens.",
+    tools: ["Premiere Pro"],
+    metric: "Alta Retenção & Consistência",
+    images: [projectChrisThumb1],
+    videoUrl: "/videos/chris-conteudo-escala.mp4",
   },
 ];
 
@@ -532,11 +526,12 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
   const [activeTab, setActiveTab] = useState<string>("all");
 
   const categories = [
-    { id: "all", label: "Todos" },
-    { id: "reels", label: "Reels & Shorts" },
-    { id: "commercial", label: "Apps & SaaS" },
-    { id: "youtube", label: "YouTube" },
-    { id: "motion", label: "Motion Design" },
+    { id: "all", label: "Todos os Projetos" },
+    { id: "saas", label: "01. Apps & SaaS" },
+    { id: "social", label: "02. Redes Sociais" },
+    { id: "motion", label: "03. Motion Design" },
+    { id: "youtube", label: "04. YouTube & Podcasts" },
+    { id: "escala", label: "05. Em Escala" },
   ];
 
   const filteredProjects =
@@ -547,7 +542,7 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
       <div className="text-center">
         <h2 className="font-display-black text-chrome text-[16vw] sm:text-[9rem]">Projetos</h2>
         <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-          Clique em qualquer projeto para abrir os detalhes, ferramentas utilizadas e assistir à prévia do vídeo.
+          Exemplos práticos e reais dos 5 serviços prestados, com ferramentas utilizadas e prévias em vídeo.
         </p>
 
         {/* Filtros de Categoria */}
@@ -578,7 +573,7 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
             <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div className="flex items-start gap-4 sm:gap-8">
                 <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
-                  {String(i + 1).padStart(2, "0")}
+                  {String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
                 </span>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
