@@ -5,11 +5,8 @@ import { useGSAP } from "@gsap/react";
 import {
   Play,
   X,
-  ExternalLink,
   Mail,
   Instagram,
-  Youtube,
-  Linkedin,
   MessageCircle,
   Sparkles,
   ArrowUpRight,
@@ -87,15 +84,11 @@ export const Route = createFileRoute("/")({
 export const PORTFOLIO_CONFIG = {
   name: "Lucas",
   role: "Editor de Vídeo & Motion Designer",
-  // Insira seu WhatsApp no formato internacional: 55 + DDD + Número (ex: 5511999999999)
-  whatsappNumber: "5511999999999",
-  whatsappDisplay: "+55 (11) 99999-9999",
-  email: "contato@lucaseditor.com.br",
-  instagramUrl: "https://instagram.com",
-  youtubeUrl: "https://youtube.com",
-  linkedinUrl: "https://linkedin.com",
-  githubUrl: "https://github.com/lucasuf04",
-  status: "🟢 Disponível para novos projetos",
+  whatsappNumber: "5549999725340",
+  whatsappDisplay: "+55 (49) 9 9972-5340",
+  email: "lucasunser0103@gmail.com",
+  instagramHandle: "@lucasuf_editor",
+  instagramUrl: "https://instagram.com/lucasuf_editor",
 };
 
 const NAV = [
@@ -1223,6 +1216,7 @@ function Contact() {
         <button
           type="button"
           onClick={handleCopyEmail}
+          title="Copiar endereço de email"
           className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-outline px-8 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background cursor-pointer"
         >
           {copied ? (
@@ -1232,57 +1226,32 @@ function Contact() {
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4" />
-              <span>Copiar Email</span>
+              <Copy className="h-4 w-4 shrink-0" />
+              <span className="normal-case tracking-normal">{PORTFOLIO_CONFIG.email}</span>
             </>
           )}
         </button>
       </div>
 
-      {/* Redes Sociais */}
-      <div className="mt-12 flex items-center justify-center gap-6">
+      {/* Redes Sociais & Contato Direto */}
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
         <a
           href={PORTFOLIO_CONFIG.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Instagram"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
+          aria-label={`Instagram ${PORTFOLIO_CONFIG.instagramHandle}`}
+          className="inline-flex items-center gap-2.5 rounded-full border border-outline/30 px-5 py-2.5 text-sm text-muted-foreground transition-all hover:scale-105 hover:border-foreground hover:text-foreground"
         >
-          <Instagram className="h-5 w-5" />
-        </a>
-        <a
-          href={PORTFOLIO_CONFIG.youtubeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="YouTube"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
-        >
-          <Youtube className="h-5 w-5" />
-        </a>
-        <a
-          href={PORTFOLIO_CONFIG.linkedinUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
-        >
-          <Linkedin className="h-5 w-5" />
-        </a>
-        <a
-          href={PORTFOLIO_CONFIG.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
-        >
-          <ExternalLink className="h-5 w-5" />
+          <Instagram className="h-4 w-4" />
+          <span>{PORTFOLIO_CONFIG.instagramHandle}</span>
         </a>
         <a
           href={`mailto:${PORTFOLIO_CONFIG.email}`}
-          aria-label="Email"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
+          aria-label={`Enviar email para ${PORTFOLIO_CONFIG.email}`}
+          className="inline-flex items-center gap-2.5 rounded-full border border-outline/30 px-5 py-2.5 text-sm text-muted-foreground transition-all hover:scale-105 hover:border-foreground hover:text-foreground"
         >
-          <Mail className="h-5 w-5" />
+          <Mail className="h-4 w-4" />
+          <span>Enviar Email</span>
         </a>
       </div>
 
