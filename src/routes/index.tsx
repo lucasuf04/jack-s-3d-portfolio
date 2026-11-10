@@ -947,7 +947,7 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
     { id: "social", label: "02. Redes Sociais" },
     { id: "motion", label: "03. Motion Design" },
     { id: "youtube", label: "04. YouTube & Podcasts" },
-    { id: "escala", label: "05. Em Escala" },
+    { id: "escala", label: "05. Edições básicas para redes" },
   ];
 
   const filteredProjects =
