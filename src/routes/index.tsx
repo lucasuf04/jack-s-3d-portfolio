@@ -1189,10 +1189,10 @@ function Contact() {
   return (
     <footer id="contact" className="flex flex-col items-center px-6 pb-16 pt-16 text-center">
       <h2
-        aria-label="Vamos conversar"
         className="font-display-black text-chrome text-[14vw] sm:text-[8rem]"
+        style={{ letterSpacing: "0em" }}
       >
-        Vamos conv<span style={{ letterSpacing: "0.02em" }}>e</span>rsar
+        Vamos conversar
       </h2>
       <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-xl leading-relaxed">
         Tem um projeto em mente ou precisa de edição constante para seus canais?
@@ -1236,7 +1236,7 @@ function Contact() {
 
       <div className="mt-16 flex flex-col items-center gap-2 border-t border-outline/10 pt-8 text-xs uppercase tracking-widest text-muted-foreground">
         <p>© {new Date().getFullYear()} {PORTFOLIO_CONFIG.name} — Todos os direitos reservados.</p>
-        <p className="text-[11px] text-muted-foreground/60">Edição de Vídeo • Motion Design • Apps & SaaS</p>
+        <p className="text-[11px] text-muted-foreground/60">Edição de Vídeo • Motion Design</p>
       </div>
     </footer>
   );
