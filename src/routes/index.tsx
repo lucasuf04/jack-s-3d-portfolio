@@ -10,9 +10,7 @@ import {
   MessageCircle,
   Sparkles,
   ArrowUpRight,
-  Check,
   ChevronDown,
-  Copy,
   SlidersHorizontal,
   ChevronLeft,
   ChevronRight,
@@ -1188,14 +1186,6 @@ function FAQ() {
 }
 
 function Contact() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(PORTFOLIO_CONFIG.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   return (
     <footer id="contact" className="flex flex-col items-center px-6 pb-16 pt-16 text-center">
       <h2 className="font-display-black text-chrome text-[14vw] sm:text-[8rem]">
@@ -1206,7 +1196,7 @@ function Contact() {
         Me chame e vamos transformar sua visão em vídeos com alto impacto e retenção.
       </p>
 
-      {/* Botões de Ação Direta */}
+      {/* Botão de Ação Direta */}
       <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
         <a
           href={getWhatsAppUrl("Olá Lucas! Gostaria de um orçamento para um projeto de edição de vídeo.")}
@@ -1217,25 +1207,6 @@ function Contact() {
           <MessageCircle className="h-5 w-5" />
           <span>Falar no WhatsApp</span>
         </a>
-
-        <button
-          type="button"
-          onClick={handleCopyEmail}
-          title="Copiar endereço de email"
-          className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-outline px-8 py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background cursor-pointer"
-        >
-          {copied ? (
-            <>
-              <Check className="h-4 w-4 text-emerald-400" />
-              <span>Email Copiado!</span>
-            </>
-          ) : (
-            <>
-              <Copy className="h-4 w-4 shrink-0" />
-              <span className="normal-case tracking-normal">{PORTFOLIO_CONFIG.email}</span>
-            </>
-          )}
-        </button>
       </div>
 
       {/* Redes Sociais & Contato Direto */}
@@ -1256,7 +1227,7 @@ function Contact() {
           className="inline-flex items-center gap-2.5 rounded-full border border-outline/30 px-5 py-2.5 text-sm text-muted-foreground transition-all hover:scale-105 hover:border-foreground hover:text-foreground"
         >
           <Mail className="h-4 w-4" />
-          <span>Enviar Email</span>
+          <span>{PORTFOLIO_CONFIG.email}</span>
         </a>
       </div>
 
