@@ -50,6 +50,9 @@ import discordThumbH from "@/assets/discord-thumb-h.jpg";
 import discordThumbV from "@/assets/discord-thumb-v.jpg";
 import googledriveThumbH from "@/assets/googledrive-thumb-h.jpg";
 import googledriveThumbV from "@/assets/googledrive-thumb-v.jpg";
+import socialDraJuliana from "@/assets/social-dra-juliana.jpg";
+import socialBuffetMunger from "@/assets/social-buffet-munger.jpg";
+import socialItte from "@/assets/social-itte.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -107,11 +110,11 @@ const SHOWCASE = [
     videoUrl: "/videos/mercadopago-demo.mp4",
   },
   {
-    src: projectReel,
+    src: socialDraJuliana,
     alt: "Edição de Vídeos para Redes Sociais",
     title: "Edição de Vídeos para Redes Sociais",
     tag: "02 • Redes Sociais",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    videoUrl: "/videos/social-dra-juliana.mp4",
   },
   {
     src: showcaseMotion,
@@ -173,10 +176,10 @@ export interface VideoVariant {
   title: string;
   subtitle: string;
   description: string;
-  horizontalVideo: string;
-  verticalVideo: string;
-  horizontalThumb: string;
-  verticalThumb: string;
+  horizontalVideo?: string;
+  verticalVideo?: string;
+  horizontalThumb?: string;
+  verticalThumb?: string;
   tools: string[];
   metric: string;
 }
@@ -240,6 +243,45 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
   },
 ];
 
+export const SOCIAL_EXAMPLES: VideoVariant[] = [
+  {
+    id: "dra-juliana",
+    shortLabel: "Dra. Juliana",
+    title: "Dra. Juliana — Conteúdo Médico de Alta Retenção",
+    subtitle: "Reels Estratégico • Saúde & Autoridade",
+    description:
+      "Edição dinâmica vertical para Instagram Reels focada em autoridade médica. Cortes ágeis no ritmo da fala, legendas animadas centralizadas para prender a atenção, inserções visuais e transições limpas.",
+    verticalVideo: "/videos/social-dra-juliana.mp4",
+    verticalThumb: socialDraJuliana,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Autoridade & Legendas Dinâmicas",
+  },
+  {
+    id: "buffet-munger",
+    shortLabel: "Buffet & Munger",
+    title: "Buffet & Munger — Storytelling Visual & Finanças",
+    subtitle: "Reels Cinematográfico • Storytelling",
+    description:
+      "Edição narrativa vertical sobre Warren Buffett e Charlie Munger com estética neon e estilo cinematográfico. Efeitos de luz, sound design imersivo, tipografia em movimento e ganchos visuais poderosos de retenção.",
+    verticalVideo: "/videos/social-buffet-munger.mp4",
+    verticalThumb: socialBuffetMunger,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Storytelling & Visual Neon",
+  },
+  {
+    id: "criativo-itte",
+    shortLabel: "Criativo Itté",
+    title: "Criativo Itté — Anúncio Direto & Motion 3D",
+    subtitle: "Tráfego Pago & Reels Criativo",
+    description:
+      "Criativo de alta conversão desenvolvido para anúncios em redes sociais. Elementos gráficos em 3D integrados à fala, cores vibrantes da marca, cortes dinâmicos e chamada para ação pensada para performance.",
+    verticalVideo: "/videos/social-itte.mp4",
+    verticalThumb: socialItte,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Criativo de Alta Conversão",
+  },
+];
+
 export interface ProjectItem {
   id: string;
   kind: string;
@@ -251,7 +293,7 @@ export interface ProjectItem {
   metric: string;
   images: string[];
   videoUrl?: string;
-  hasCarousel?: boolean;
+  carouselItems?: VideoVariant[];
   horizontalVideo?: string;
   verticalVideo?: string;
   horizontalThumb?: string;
@@ -271,7 +313,7 @@ const PROJECTS: ProjectItem[] = [
     metric: "4 Exemplos em 2 Formatos (16:9 e 9:16)",
     images: [mercadopagoThumbH],
     videoUrl: "/videos/mercadopago-horizontal.mp4",
-    hasCarousel: true,
+    carouselItems: SAAS_EXAMPLES,
   },
   {
     id: "edicao-redes-sociais",
@@ -282,9 +324,10 @@ const PROJECTS: ProjectItem[] = [
     description:
       "Edição dinâmica e estratégica para Instagram Reels, YouTube Shorts, TikTok e outras plataformas. Cortes precisos, legendas animadas, efeitos visuais e ritmo pensado para manter a audiência engajada.",
     tools: ["Premiere Pro", "After Effects"],
-    metric: "+2.4M Visualizações Orgânicas",
-    images: [projectReel],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    metric: "3 Exemplos em 9:16 Vertical",
+    images: [socialDraJuliana],
+    videoUrl: "/videos/social-dra-juliana.mp4",
+    carouselItems: SOCIAL_EXAMPLES,
   },
   {
     id: "motion-design-profissional",
@@ -486,7 +529,10 @@ function Showcase({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
             <div
               key={i}
               onClick={() => {
-                const match = PROJECTS.find((p) => p.name.includes(item.title.split(" ")[0])) || PROJECTS[0];
+                const match =
+                  PROJECTS.find((p) => p.name === item.title) ||
+                  PROJECTS.find((p) => p.name.includes(item.title.split(" ")[0])) ||
+                  PROJECTS[0];
                 onSelectProject(match);
               }}
               className="group relative h-40 w-auto cursor-pointer overflow-hidden rounded-xl border border-outline/20 sm:h-56"
@@ -613,35 +659,58 @@ function Services() {
   );
 }
 
-/** Card Especial com Carrossel de Múltiplos Exemplos de Apps & SaaS (16:9 e 9:16) */
-function SaasCarouselCard({
+/** Card com Carrossel de Múltiplos Exemplos (suporta apenas um formato ou alternância 16:9 / 9:16) */
+function CarouselProjectCard({
   project,
+  items,
   orderNumber,
   onSelectProject,
   topOffset,
 }: {
   project: ProjectItem;
+  items: VideoVariant[];
   orderNumber: string;
   onSelectProject: (proj: ProjectItem) => void;
   topOffset: string;
 }) {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [aspect, setAspect] = useState<"horizontal" | "vertical">("horizontal");
+  const [aspect, setAspect] = useState<"horizontal" | "vertical">(project.aspect || "horizontal");
 
-  const currentExample = SAAS_EXAMPLES[activeIdx];
+  const currentExample = items[activeIdx];
+  const hasHorizontal = !!(currentExample.horizontalVideo && currentExample.horizontalThumb);
+  const hasVertical = !!(currentExample.verticalVideo && currentExample.verticalThumb);
+  const hasBothFormats = hasHorizontal && hasVertical;
+  const effectiveAspect: "horizontal" | "vertical" = hasBothFormats
+    ? aspect
+    : hasVertical
+      ? "vertical"
+      : "horizontal";
+
+  const currentThumb =
+    (effectiveAspect === "vertical"
+      ? currentExample.verticalThumb
+      : currentExample.horizontalThumb) || project.images[0];
+  const currentVideo =
+    (effectiveAspect === "vertical"
+      ? currentExample.verticalVideo
+      : currentExample.horizontalVideo) || project.videoUrl;
 
   const handleOpenVideo = () => {
     onSelectProject({
-      id: `saas-${currentExample.id}-${aspect}`,
-      kind: `01. Apps & SaaS • ${currentExample.subtitle}`,
+      id: `${project.id}-${currentExample.id}-${effectiveAspect}`,
+      kind: `${orderNumber}. ${project.name} • ${currentExample.subtitle}`,
       name: currentExample.title,
-      category: "saas",
-      aspect: aspect,
+      category: project.category,
+      aspect: effectiveAspect,
       description: currentExample.description,
       tools: currentExample.tools,
-      metric: aspect === "vertical" ? "9:16 Vertical (Reels/Shorts)" : "16:9 Widescreen (Demo)",
-      images: [aspect === "vertical" ? currentExample.verticalThumb : currentExample.horizontalThumb],
-      videoUrl: aspect === "vertical" ? currentExample.verticalVideo : currentExample.horizontalVideo,
+      metric: hasBothFormats
+        ? effectiveAspect === "vertical"
+          ? "9:16 Vertical (Reels/Shorts)"
+          : "16:9 Widescreen (Demo)"
+        : currentExample.metric,
+      images: [currentThumb],
+      videoUrl: currentVideo,
       horizontalVideo: currentExample.horizontalVideo,
       verticalVideo: currentExample.verticalVideo,
       horizontalThumb: currentExample.horizontalThumb,
@@ -651,12 +720,12 @@ function SaasCarouselCard({
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setActiveIdx((prev) => (prev === 0 ? SAAS_EXAMPLES.length - 1 : prev - 1));
+    setActiveIdx((prev) => (prev === 0 ? items.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setActiveIdx((prev) => (prev === SAAS_EXAMPLES.length - 1 ? 0 : prev + 1));
+    setActiveIdx((prev) => (prev === items.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -679,7 +748,7 @@ function SaasCarouselCard({
                 {currentExample.metric}
               </span>
               <span className="rounded-full bg-foreground/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-foreground border border-outline/30">
-                {activeIdx + 1} de {SAAS_EXAMPLES.length} Exemplos
+                {activeIdx + 1} de {items.length} Exemplos
               </span>
             </div>
 
@@ -710,15 +779,19 @@ function SaasCarouselCard({
           className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
         >
           <Play className="h-4 w-4 fill-current" />
-          <span>Assistir Vídeo ({aspect === "horizontal" ? "16:9" : "9:16"})</span>
+          <span>
+            {hasBothFormats
+              ? `Assistir Vídeo (${effectiveAspect === "horizontal" ? "16:9" : "9:16"})`
+              : "Assistir Vídeo"}
+          </span>
         </button>
       </header>
 
-      {/* Barra de Controle: Carrossel de Apps + Alternador de Formato (Horizontal / Vertical) */}
+      {/* Barra de Controle: Seletor de Exemplos + Alternador de Formato (quando há 16:9 e 9:16) */}
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-outline/30 bg-surface/5 p-3 sm:px-6 sm:py-4">
-        {/* Seletor de Apps (Abas/Pills do Carrossel) */}
+        {/* Seletor de Exemplos (Abas/Pills do Carrossel) */}
         <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-          {SAAS_EXAMPLES.map((ex, idx) => (
+          {items.map((ex, idx) => (
             <button
               key={ex.id}
               type="button"
@@ -734,43 +807,43 @@ function SaasCarouselCard({
           ))}
         </div>
 
-        {/* Alternador de Proporção: 16:9 Horizontal vs 9:16 Vertical */}
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold hidden sm:inline">
-            Formato:
-          </span>
-          <div className="inline-flex rounded-full border border-outline/30 bg-background p-1">
-            <button
-              type="button"
-              onClick={() => setAspect("horizontal")}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                aspect === "horizontal"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Monitor className="h-3.5 w-3.5" />
-              <span>16:9 Horizontal</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setAspect("vertical")}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                aspect === "vertical"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Smartphone className="h-3.5 w-3.5" />
-              <span>9:16 Vertical</span>
-            </button>
+        {hasBothFormats && (
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold hidden sm:inline">
+              Formato:
+            </span>
+            <div className="inline-flex rounded-full border border-outline/30 bg-background p-1">
+              <button
+                type="button"
+                onClick={() => setAspect("horizontal")}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                  aspect === "horizontal"
+                    ? "bg-foreground text-background shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Monitor className="h-3.5 w-3.5" />
+                <span>16:9 Horizontal</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setAspect("vertical")}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                  aspect === "vertical"
+                    ? "bg-foreground text-background shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Smartphone className="h-3.5 w-3.5" />
+                <span>9:16 Vertical</span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Área da Prévia com Botões de Navegação < e > */}
       <div className="relative mt-6 flex items-center justify-center">
-        {/* Botão Anterior */}
         <button
           type="button"
           onClick={handlePrev}
@@ -780,7 +853,6 @@ function SaasCarouselCard({
           <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
         </button>
 
-        {/* Botão Próximo */}
         <button
           type="button"
           onClick={handleNext}
@@ -790,16 +862,16 @@ function SaasCarouselCard({
           <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
         </button>
 
-        {/* Prévia do Vídeo (Muda proporcionalmente para 16:9 ou 9:16) */}
+        {/* Prévia do Vídeo (Proporcional: Vertical 9:16 ou Widescreen 16:9) */}
         <div
           onClick={handleOpenVideo}
           className="flex justify-center w-full cursor-pointer"
         >
-          {aspect === "vertical" ? (
+          {effectiveAspect === "vertical" ? (
             <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
               <img
-                key={`vert-${activeIdx}`}
-                src={currentExample.verticalThumb}
+                key={`${project.id}-vert-${activeIdx}`}
+                src={currentThumb}
                 alt={`${currentExample.title} — prévia vertical`}
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
@@ -809,15 +881,15 @@ function SaasCarouselCard({
                   <Play className="h-8 w-8 fill-white pl-1 text-white" />
                 </div>
                 <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
-                  Assistir Versão Vertical (9:16)
+                  {hasBothFormats ? "Assistir Versão Vertical (9:16)" : "Assistir Vídeo"}
                 </span>
               </div>
             </div>
           ) : (
             <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
               <img
-                key={`horiz-${activeIdx}`}
-                src={currentExample.horizontalThumb}
+                key={`${project.id}-horiz-${activeIdx}`}
+                src={currentThumb}
                 alt={`${currentExample.title} — prévia horizontal`}
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
@@ -827,7 +899,7 @@ function SaasCarouselCard({
                   <Play className="h-8 w-8 fill-white pl-1 text-white" />
                 </div>
                 <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
-                  Assistir Versão Widescreen (16:9)
+                  {hasBothFormats ? "Assistir Versão Widescreen (16:9)" : "Assistir Vídeo"}
                 </span>
               </div>
             </div>
@@ -837,7 +909,7 @@ function SaasCarouselCard({
 
       {/* Indicadores de Paginação (Dots) */}
       <div className="mt-6 flex items-center justify-center gap-2">
-        {SAAS_EXAMPLES.map((_, dotIdx) => (
+        {items.map((_, dotIdx) => (
           <button
             key={dotIdx}
             type="button"
@@ -896,10 +968,11 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
 
       <div className="mx-auto mt-16 max-w-6xl space-y-10">
         {filteredProjects.map((p, i) =>
-          p.hasCarousel ? (
-            <SaasCarouselCard
+          p.carouselItems && p.carouselItems.length > 0 ? (
+            <CarouselProjectCard
               key={p.id}
               project={p}
+              items={p.carouselItems}
               orderNumber={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
               onSelectProject={onSelectProject}
               topOffset={`${5 + (i % 6) * 1.5}rem`}
@@ -1165,10 +1238,8 @@ function VideoModal({
   project: ProjectItem | null;
   onClose: () => void;
 }) {
-  if (!project) return null;
-
   const [modalAspect, setModalAspect] = useState<"horizontal" | "vertical">(
-    project.aspect || "horizontal"
+    project?.aspect || "horizontal"
   );
 
   useEffect(() => {
@@ -1176,6 +1247,8 @@ function VideoModal({
       setModalAspect(project.aspect || "horizontal");
     }
   }, [project]);
+
+  if (!project) return null;
 
   const hasBothFormats = !!(project.horizontalVideo && project.verticalVideo);
   const isVertical = hasBothFormats
