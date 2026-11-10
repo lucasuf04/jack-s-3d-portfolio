@@ -353,12 +353,12 @@ export interface ProjectItem {
   tools: string[];
   metric: string;
   images: string[];
-  videoUrl?: string;
-  carouselItems?: VideoVariant[];
-  horizontalVideo?: string;
-  verticalVideo?: string;
-  horizontalThumb?: string;
-  verticalThumb?: string;
+  videoUrl?: string | undefined;
+  carouselItems?: VideoVariant[] | undefined;
+  horizontalVideo?: string | undefined;
+  verticalVideo?: string | undefined;
+  horizontalThumb?: string | undefined;
+  verticalThumb?: string | undefined;
 }
 
 const PROJECTS: ProjectItem[] = [
@@ -586,11 +586,12 @@ function Showcase({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
             <div
               key={i}
               onClick={() => {
+                const firstWord = item.title.split(" ")[0] ?? "";
                 const match =
-                  PROJECTS.find((p) => p.name === item.title) ||
-                  PROJECTS.find((p) => p.name.includes(item.title.split(" ")[0])) ||
+                  PROJECTS.find((p) => p.name === item.title) ??
+                  (firstWord ? PROJECTS.find((p) => p.name.includes(firstWord)) : undefined) ??
                   PROJECTS[0];
-                onSelectProject(match);
+                if (match) onSelectProject(match);
               }}
               className="group relative h-40 w-auto cursor-pointer overflow-hidden rounded-xl border border-outline/20 sm:h-56"
             >
@@ -733,7 +734,9 @@ function CarouselProjectCard({
   const [activeIdx, setActiveIdx] = useState(0);
   const [aspect, setAspect] = useState<"horizontal" | "vertical">(project.aspect || "horizontal");
 
-  const currentExample = items[activeIdx];
+  const currentExample = items[activeIdx] ?? items[0];
+  if (!currentExample) return null;
+
   const hasHorizontal = !!(currentExample.horizontalVideo && currentExample.horizontalThumb);
   const hasVertical = !!(currentExample.verticalVideo && currentExample.verticalThumb);
   const hasBothFormats = hasHorizontal && hasVertical;
@@ -746,7 +749,9 @@ function CarouselProjectCard({
   const currentThumb =
     (effectiveAspect === "vertical"
       ? currentExample.verticalThumb
-      : currentExample.horizontalThumb) || project.images[0];
+      : currentExample.horizontalThumb) ??
+    project.images[0] ??
+    "";
   const currentVideo =
     (effectiveAspect === "vertical"
       ? currentExample.verticalVideo
