@@ -1188,8 +1188,11 @@ function FAQ() {
 function Contact() {
   return (
     <footer id="contact" className="flex flex-col items-center px-6 pb-16 pt-16 text-center">
-      <h2 className="font-display-black text-chrome text-[14vw] sm:text-[8rem]">
-        Vamos conversar
+      <h2
+        aria-label="Vamos conversar"
+        className="font-display-black text-chrome text-[14vw] sm:text-[8rem]"
+      >
+        Vamos conv<span style={{ letterSpacing: "0.02em" }}>e</span>rsar
       </h2>
       <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-xl leading-relaxed">
         Tem um projeto em mente ou precisa de edição constante para seus canais?
