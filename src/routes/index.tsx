@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Portfólio de edição de vídeo e motion design: vídeos para redes sociais, YouTube, Remotion, comerciais e demonstrações de apps e SaaS.",
+          "Portfólio de edição de vídeo e motion design: vídeos para redes sociais, YouTube, motion graphics e demonstrações de apps e SaaS.",
       },
       { property: "og:title", content: "Lucas — Editor de Vídeo e Motion Designer" },
       {
@@ -121,9 +121,9 @@ const ABOUT_TEXT =
   "Sou editor de vídeo e motion designer, atuando há aproximadamente 3 anos na criação de conteúdos audiovisuais. Meu trabalho é focado em vídeos para mídias sociais, como Instagram, YouTube e outras plataformas digitais, além do desenvolvimento de motions profissionais e vídeos com o intuito de demonstrar funções de apps e SaaS. Busco transformar ideias em conteúdos dinâmicos, modernos e visualmente impactantes, combinando edição estratégica, animações, efeitos e técnicas de motion design para criar vídeos que prendam a atenção e transmitam mensagens com qualidade.";
 
 const TOOLS_TEXT =
-  "Trabalho com as principais ferramentas do mercado — Adobe Premiere Pro, After Effects e Remotion — para desenvolver projetos criativos, dinâmicos e de alto nível.";
+  "Trabalho com as principais ferramentas do mercado — Adobe Premiere Pro e After Effects — para desenvolver projetos criativos, dinâmicos e de alto nível.";
 
-const TOOLS = ["Premiere Pro", "After Effects", "Remotion"];
+const TOOLS = ["Premiere Pro", "After Effects"];
 
 const SERVICES = [
   {
@@ -137,10 +137,6 @@ const SERVICES = [
   {
     title: "Motion Design Profissional",
     text: "Criação de animações modernas e profissionais, com elementos gráficos, transições, tipografia animada e efeitos visuais que dão mais personalidade e impacto aos vídeos.",
-  },
-  {
-    title: "Vídeos com Remotion & Código",
-    text: "Desenvolvimento de vídeos personalizados utilizando código e animações avançadas. Uma abordagem que permite criar composições modernas, movimentos fluidos e experiências visuais diferenciadas.",
   },
   {
     title: "Edição para YouTube & Podcasts",
@@ -232,15 +228,15 @@ const PROJECTS: ProjectItem[] = [
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
-    id: "remotion-motion",
-    kind: "Projeto Especial",
-    name: "Motion Graphics procedural com Remotion & Código",
+    id: "motion-graphics",
+    kind: "Motion Design",
+    name: "Motion Graphics & Identidade Visual Animada",
     category: "motion",
     aspect: "horizontal",
     description:
-      "Animações programáticas geradas via código (React + Remotion). Permite criar composições matemáticas perfeitas, gráficos gerados a partir de dados reais e exportação em altíssima fidelidade a 60fps.",
-    tools: ["Remotion", "After Effects"],
-    metric: "Render a 60 FPS Perfeito",
+      "Animações dinâmicas de tipografia, transições fluidas, formas abstratas e elementos visuais de alto impacto desenvolvidos no After Effects para valorizar a comunicação de marcas e produtos.",
+    tools: ["After Effects"],
+    metric: "Animação Fluida & Dinâmica",
     images: [showcaseMotion],
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
@@ -540,7 +536,7 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
     { id: "reels", label: "Reels & Shorts" },
     { id: "commercial", label: "Apps & SaaS" },
     { id: "youtube", label: "YouTube" },
-    { id: "motion", label: "Motion & Remotion" },
+    { id: "motion", label: "Motion Design" },
   ];
 
   const filteredProjects =
@@ -819,7 +815,7 @@ function Contact() {
 
       <div className="mt-16 flex flex-col items-center gap-2 border-t border-outline/10 pt-8 text-xs uppercase tracking-widest text-muted-foreground">
         <p>© {new Date().getFullYear()} {PORTFOLIO_CONFIG.name} — Todos os direitos reservados.</p>
-        <p className="text-[11px] text-muted-foreground/60">Edição de Vídeo • Motion Design • Remotion</p>
+        <p className="text-[11px] text-muted-foreground/60">Edição de Vídeo • Motion Design • Apps & SaaS</p>
       </div>
     </footer>
   );
