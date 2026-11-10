@@ -53,6 +53,9 @@ import googledriveThumbV from "@/assets/googledrive-thumb-v.jpg";
 import socialDraJuliana from "@/assets/social-dra-juliana.jpg";
 import socialBuffetMunger from "@/assets/social-buffet-munger.jpg";
 import socialItte from "@/assets/social-itte.jpg";
+import ytMiniVslShadow from "@/assets/yt-mini-vsl-shadow.jpg";
+import ytKaizenVsl from "@/assets/yt-kaizen-vsl.jpg";
+import ytVslItte from "@/assets/yt-vsl-itte.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -124,11 +127,11 @@ const SHOWCASE = [
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
-    src: showcaseYoutube,
+    src: ytMiniVslShadow,
     alt: "Edição para YouTube & Podcasts",
     title: "Edição para YouTube & Podcasts",
     tag: "04 • YouTube & Podcasts",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    videoUrl: "/videos/yt-mini-vsl-shadow.mp4",
   },
   {
     src: projectChrisThumb1,
@@ -282,6 +285,45 @@ export const SOCIAL_EXAMPLES: VideoVariant[] = [
   },
 ];
 
+export const YOUTUBE_EXAMPLES: VideoVariant[] = [
+  {
+    id: "mini-vsl-shadow",
+    shortLabel: "Mini VSL Shadow",
+    title: "Mini VSL Shadow — Edição Narrativa & Motion Dark",
+    subtitle: "YouTube & Mini VSL • Storytelling",
+    description:
+      "Edição widescreen (16:9) em estética dark e envolvente, combinando ritmo narrativo acelerado, efeitos de luz neon, sound design cinematográfico e motion graphics pontuais para máxima retenção do início ao fim.",
+    horizontalVideo: "/videos/yt-mini-vsl-shadow.mp4",
+    horizontalThumb: ytMiniVslShadow,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Storytelling & Alta Retenção",
+  },
+  {
+    id: "kaizen-vsl",
+    shortLabel: "Kaizen VSL",
+    title: "Kaizen VSL — Ritmo Dinâmico & Tipografia Emocional",
+    subtitle: "YouTube & VSL • Motion Design",
+    description:
+      "Produção de formato longo focada em clareza argumentativa. Combina tipografia animada com brilho neon, transições fluidas, fluxogramas explicativos e trilha sonora dinâmica para prender a atenção do espectador.",
+    horizontalVideo: "/videos/yt-kaizen-vsl.mp4",
+    horizontalThumb: ytKaizenVsl,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Tipografia & Fluxo Visual",
+  },
+  {
+    id: "vsl-itte",
+    shortLabel: "VSL Itté",
+    title: "VSL Itté — Vídeo Completo de Alta Conversão",
+    subtitle: "YouTube & Apresentação Widescreen",
+    description:
+      "Edição estratégica completa em 16:9 com tratamento de cor (color grading), b-rolls dinâmicos, inserts visuais que ilustram cada ponto da fala e sound design imersivo voltado para conversão e autoridade.",
+    horizontalVideo: "/videos/yt-vsl-itte.mp4",
+    horizontalThumb: ytVslItte,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Edição Completa 16:9",
+  },
+];
+
 export interface ProjectItem {
   id: string;
   kind: string;
@@ -351,9 +393,10 @@ const PROJECTS: ProjectItem[] = [
     description:
       "Produção e edição de vídeos de formato mais longo, com narrativa visual, efeitos, sound design, animações e recursos que tornam o conteúdo mais envolvente e profissional.",
     tools: ["Premiere Pro", "After Effects"],
-    metric: "74% Retenção Média",
-    images: [showcaseYoutube],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    metric: "3 Exemplos em 16:9 Widescreen",
+    images: [ytMiniVslShadow],
+    videoUrl: "/videos/yt-mini-vsl-shadow.mp4",
+    carouselItems: YOUTUBE_EXAMPLES,
   },
   {
     id: "edicao-conteudo-escala",
