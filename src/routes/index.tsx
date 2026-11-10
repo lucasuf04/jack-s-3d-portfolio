@@ -715,16 +715,14 @@ function Services() {
   );
 }
 
-/** Card com Carrossel de Múltiplos Exemplos (suporta apenas um formato ou alternância 16:9 / 9:16) */
-function CarouselProjectCard({
+/** Card limpo e unificado de projeto (suporta 1 vídeo ou carrossel e alternância 16:9 / 9:16) */
+function ProjectCard({
   project,
-  items,
   orderNumber,
   onSelectProject,
   topOffset,
 }: {
   project: ProjectItem;
-  items: VideoVariant[];
   orderNumber: string;
   onSelectProject: (proj: ProjectItem) => void;
   topOffset: string;
@@ -732,11 +730,21 @@ function CarouselProjectCard({
   const [activeIdx, setActiveIdx] = useState(0);
   const [aspect, setAspect] = useState<"horizontal" | "vertical">(project.aspect || "horizontal");
 
-  const currentExample = items[activeIdx] ?? items[0];
-  if (!currentExample) return null;
+  const carouselItems = project.carouselItems ?? [];
+  const hasCarousel = carouselItems.length > 1;
+  const currentExample =
+    carouselItems.length > 0 ? (carouselItems[activeIdx] ?? carouselItems[0]) : undefined;
 
-  const hasHorizontal = !!(currentExample.horizontalVideo && currentExample.horizontalThumb);
-  const hasVertical = !!(currentExample.verticalVideo && currentExample.verticalThumb);
+  const hasHorizontal = Boolean(
+    currentExample
+      ? currentExample.horizontalVideo && currentExample.horizontalThumb
+      : project.aspect === "horizontal"
+  );
+  const hasVertical = Boolean(
+    currentExample
+      ? currentExample.verticalVideo && currentExample.verticalThumb
+      : project.aspect === "vertical"
+  );
   const hasBothFormats = hasHorizontal && hasVertical;
   const effectiveAspect: "horizontal" | "vertical" = hasBothFormats
     ? aspect
@@ -744,30 +752,37 @@ function CarouselProjectCard({
       ? "vertical"
       : "horizontal";
 
-  const currentThumb =
-    (effectiveAspect === "vertical"
-      ? currentExample.verticalThumb
-      : currentExample.horizontalThumb) ??
-    project.images[0] ??
-    "";
-  const currentVideo =
-    (effectiveAspect === "vertical"
-      ? currentExample.verticalVideo
-      : currentExample.horizontalVideo) || project.videoUrl;
+  const currentThumb = currentExample
+    ? (effectiveAspect === "vertical"
+        ? currentExample.verticalThumb
+        : currentExample.horizontalThumb) ??
+      project.images[0] ??
+      ""
+    : project.images[0] ?? "";
+
+  const currentVideo = currentExample
+    ? (effectiveAspect === "vertical"
+        ? currentExample.verticalVideo
+        : currentExample.horizontalVideo) ?? project.videoUrl
+    : project.videoUrl;
 
   const handleOpenVideo = () => {
+    if (!currentExample) {
+      onSelectProject(project);
+      return;
+    }
     onSelectProject({
       id: `${project.id}-${currentExample.id}-${effectiveAspect}`,
-      kind: `${orderNumber}. ${project.name} • ${currentExample.subtitle}`,
-      name: currentExample.title,
+      kind: project.kind,
+      name: project.name,
       category: project.category,
       aspect: effectiveAspect,
       description: currentExample.description,
       tools: currentExample.tools,
       metric: hasBothFormats
         ? effectiveAspect === "vertical"
-          ? "9:16 Vertical (Reels/Shorts)"
-          : "16:9 Widescreen (Demo)"
+          ? "9:16 Vertical"
+          : "16:9 Horizontal"
         : currentExample.metric,
       images: [currentThumb],
       videoUrl: currentVideo,
@@ -780,207 +795,145 @@ function CarouselProjectCard({
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setActiveIdx((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+    setActiveIdx((prev) => (prev === 0 ? carouselItems.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setActiveIdx((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+    setActiveIdx((prev) => (prev === carouselItems.length - 1 ? 0 : prev + 1));
   };
+
+  const navBtnClass =
+    "z-20 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border border-outline/40 bg-background/85 text-foreground backdrop-blur-md shadow-lg transition-all hover:scale-110 hover:border-foreground cursor-pointer";
+
+  const previewImage = (
+    <div
+      onClick={handleOpenVideo}
+      className={`group/thumb relative overflow-hidden rounded-[1.75rem] border border-outline/30 bg-black shadow-2xl cursor-pointer transition-transform duration-300 ${
+        effectiveAspect === "vertical"
+          ? "aspect-[9/16] w-full max-w-[260px] sm:max-w-[320px] hover:scale-[1.015]"
+          : "aspect-video w-full hover:scale-[1.005]"
+      }`}
+    >
+      <img
+        key={`${project.id}-${effectiveAspect}-${activeIdx}`}
+        src={currentThumb}
+        alt={`${project.name} — prévia ${activeIdx + 1}`}
+        loading="lazy"
+        className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+      />
+      <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors duration-300 group-hover/thumb:bg-black/40">
+        <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white backdrop-blur-md shadow-lg transition-transform duration-300 group-hover/thumb:scale-110 group-hover/thumb:bg-white/25">
+          <Play className="h-6 w-6 sm:h-7 sm:w-7 fill-white pl-0.5 text-white" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <article
-      className="group sticky rounded-[2.5rem] border border-outline bg-background p-5 transition-all duration-300 hover:border-foreground/40 sm:p-10 shadow-2xl"
+      className="group sticky rounded-[2rem] sm:rounded-[2.5rem] border border-outline/50 bg-background p-6 sm:p-10 transition-all duration-300 hover:border-foreground/30 shadow-2xl"
       style={{ top: topOffset }}
     >
-      <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div className="flex items-start gap-4 sm:gap-8">
-          <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
+      <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 sm:gap-6">
+        <div className="flex items-start gap-4 sm:gap-7">
+          <span className="font-display-black text-5xl sm:text-7xl text-muted-foreground/35 leading-none select-none shrink-0">
             {orderNumber}
           </span>
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-surface/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border border-outline/30">
-                {project.kind}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold text-primary">
-                <Sparkles className="h-3 w-3" />
-                {currentExample.metric}
-              </span>
-              <span className="rounded-full bg-foreground/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-foreground border border-outline/30">
-                {activeIdx + 1} de {items.length} Exemplos
-              </span>
-            </div>
-
-            <h3 className="mt-3 text-xl font-bold uppercase sm:text-3xl text-foreground">
-              {currentExample.title}
+          <div className="pt-0.5">
+            <h3 className="text-xl font-bold uppercase tracking-tight sm:text-2xl text-foreground">
+              {project.name}
             </h3>
-
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base leading-relaxed">
-              {currentExample.description}
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+              {project.description}
             </p>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {currentExample.tools.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md border border-outline/20 bg-card px-2.5 py-1 text-[11px] text-muted-foreground"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
+              {project.tools.join(" • ")}
+            </p>
           </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleOpenVideo}
-          className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
-        >
-          <Play className="h-4 w-4 fill-current" />
-          <span>
-            {hasBothFormats
-              ? `Assistir Vídeo (${effectiveAspect === "horizontal" ? "16:9" : "9:16"})`
-              : "Assistir Vídeo"}
-          </span>
-        </button>
-      </header>
-
-      {/* Barra de Controle: Seletor de Exemplos + Alternador de Formato (quando há 16:9 e 9:16) */}
-      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-outline/30 bg-surface/5 p-3 sm:px-6 sm:py-4">
-        {/* Seletor de Exemplos (Abas/Pills do Carrossel) */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-          {items.map((ex, idx) => (
-            <button
-              key={ex.id}
-              type="button"
-              onClick={() => setActiveIdx(idx)}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
-                activeIdx === idx
-                  ? "bg-foreground text-background shadow-md scale-105"
-                  : "border border-outline/30 text-muted-foreground hover:border-foreground hover:text-foreground"
-              }`}
-            >
-              {ex.shortLabel}
-            </button>
-          ))}
         </div>
 
         {hasBothFormats && (
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold hidden sm:inline">
-              Formato:
-            </span>
-            <div className="inline-flex rounded-full border border-outline/30 bg-background p-1">
-              <button
-                type="button"
-                onClick={() => setAspect("horizontal")}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                  aspect === "horizontal"
-                    ? "bg-foreground text-background shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Monitor className="h-3.5 w-3.5" />
-                <span>16:9 Horizontal</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setAspect("vertical")}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                  aspect === "vertical"
-                    ? "bg-foreground text-background shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Smartphone className="h-3.5 w-3.5" />
-                <span>9:16 Vertical</span>
-              </button>
-            </div>
+          <div className="inline-flex shrink-0 self-start rounded-full border border-outline/40 bg-background p-1">
+            <button
+              type="button"
+              onClick={() => setAspect("horizontal")}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                aspect === "horizontal"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Monitor className="h-3.5 w-3.5" />
+              <span>16:9</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setAspect("vertical")}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                aspect === "vertical"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Smartphone className="h-3.5 w-3.5" />
+              <span>9:16</span>
+            </button>
           </div>
+        )}
+      </header>
+
+      <div
+        className={`relative mt-6 sm:mt-8 flex items-center justify-center ${
+          effectiveAspect === "vertical" ? "gap-2 sm:gap-6" : ""
+        }`}
+      >
+        {hasCarousel && (
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Vídeo anterior"
+            className={`${navBtnClass} ${
+              effectiveAspect === "horizontal" ? "absolute left-3 sm:-left-5" : ""
+            }`}
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+        )}
+
+        {previewImage}
+
+        {hasCarousel && (
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Próximo vídeo"
+            className={`${navBtnClass} ${
+              effectiveAspect === "horizontal" ? "absolute right-3 sm:-right-5" : ""
+            }`}
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
         )}
       </div>
 
-      {/* Área da Prévia com Botões de Navegação < e > */}
-      <div className="relative mt-6 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={handlePrev}
-          aria-label="Vídeo anterior"
-          className="absolute left-2 sm:-left-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-outline/40 bg-background/90 text-foreground backdrop-blur-md shadow-xl transition-all hover:scale-110 hover:border-foreground cursor-pointer"
-        >
-          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-        </button>
-
-        <button
-          type="button"
-          onClick={handleNext}
-          aria-label="Próximo vídeo"
-          className="absolute right-2 sm:-right-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-outline/40 bg-background/90 text-foreground backdrop-blur-md shadow-xl transition-all hover:scale-110 hover:border-foreground cursor-pointer"
-        >
-          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-        </button>
-
-        {/* Prévia do Vídeo (Proporcional: Vertical 9:16 ou Widescreen 16:9) */}
-        <div
-          onClick={handleOpenVideo}
-          className="flex justify-center w-full cursor-pointer"
-        >
-          {effectiveAspect === "vertical" ? (
-            <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
-              <img
-                key={`${project.id}-vert-${activeIdx}`}
-                src={currentThumb}
-                alt={`${currentExample.title} — prévia vertical`}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                  <Play className="h-8 w-8 fill-white pl-1 text-white" />
-                </div>
-                <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
-                  {hasBothFormats ? "Assistir Versão Vertical (9:16)" : "Assistir Vídeo"}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
-              <img
-                key={`${project.id}-horiz-${activeIdx}`}
-                src={currentThumb}
-                alt={`${currentExample.title} — prévia horizontal`}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                  <Play className="h-8 w-8 fill-white pl-1 text-white" />
-                </div>
-                <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
-                  {hasBothFormats ? "Assistir Versão Widescreen (16:9)" : "Assistir Vídeo"}
-                </span>
-              </div>
-            </div>
-          )}
+      {hasCarousel && (
+        <div className="mt-5 flex items-center justify-center gap-2">
+          {carouselItems.map((_, dotIdx) => (
+            <button
+              key={dotIdx}
+              type="button"
+              onClick={() => setActiveIdx(dotIdx)}
+              aria-label={`Ir para vídeo ${dotIdx + 1}`}
+              className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                activeIdx === dotIdx
+                  ? "w-6 bg-foreground"
+                  : "w-1.5 bg-muted-foreground/30 hover:bg-foreground/60"
+              }`}
+            />
+          ))}
         </div>
-      </div>
-
-      {/* Indicadores de Paginação (Dots) */}
-      <div className="mt-6 flex items-center justify-center gap-2">
-        {items.map((_, dotIdx) => (
-          <button
-            key={dotIdx}
-            type="button"
-            onClick={() => setActiveIdx(dotIdx)}
-            aria-label={`Ir para exemplo ${dotIdx + 1}`}
-            className={`h-2 rounded-full transition-all cursor-pointer ${
-              activeIdx === dotIdx ? "w-8 bg-foreground" : "w-2 bg-muted-foreground/30 hover:bg-foreground/60"
-            }`}
-          />
-        ))}
-      </div>
+      )}
     </article>
   );
 }
@@ -1027,105 +980,15 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
       </div>
 
       <div className="mx-auto mt-16 max-w-6xl space-y-10">
-        {filteredProjects.map((p, i) =>
-          p.carouselItems && p.carouselItems.length > 0 ? (
-            <CarouselProjectCard
-              key={p.id}
-              project={p}
-              items={p.carouselItems}
-              orderNumber={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
-              onSelectProject={onSelectProject}
-              topOffset={`${5 + (i % 6) * 1.5}rem`}
-            />
-          ) : (
-            <article
-              key={p.id}
-              className="group sticky rounded-[2.5rem] border border-outline bg-background p-5 transition-all duration-300 hover:border-foreground/40 sm:p-10 shadow-2xl"
-              style={{ top: `${5 + (i % 6) * 1.5}rem` }}
-            >
-              <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <div className="flex items-start gap-4 sm:gap-8">
-                  <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
-                    {String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-surface/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border border-outline/30">
-                        {p.kind}
-                      </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold text-primary">
-                        <Sparkles className="h-3 w-3" />
-                        {p.metric}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 text-xl font-bold uppercase sm:text-3xl text-foreground">
-                      {p.name}
-                    </h3>
-                    <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base leading-relaxed">
-                      {p.description}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {p.tools.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-md border border-outline/20 bg-card px-2.5 py-1 text-[11px] text-muted-foreground"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onSelectProject(p)}
-                  className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
-                >
-                  <Play className="h-4 w-4 fill-current" />
-                  <span>Assistir Vídeo</span>
-                </button>
-              </header>
-
-              {/* Prévia do Projeto: Respeita a proporção real (Vertical 9:16 ou Widescreen 16:9) */}
-              <div
-                onClick={() => onSelectProject(p)}
-                className="mt-8 flex justify-center cursor-pointer"
-              >
-                {p.aspect === "vertical" ? (
-                  <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
-                    <img
-                      src={p.images[0]}
-                      alt={`${p.name} — prévia`}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                    />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                        <Play className="h-8 w-8 fill-white pl-1 text-white" />
-                      </div>
-                      <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
-                    <img
-                      src={p.images[0]}
-                      alt={`${p.name} — prévia`}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                    />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                        <Play className="h-8 w-8 fill-white pl-1 text-white" />
-                      </div>
-                      <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </article>
-          )
-        )}
+        {filteredProjects.map((p, i) => (
+          <ProjectCard
+            key={p.id}
+            project={p}
+            orderNumber={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
+            onSelectProject={onSelectProject}
+            topOffset={`${5 + (i % 6) * 1.5}rem`}
+          />
+        ))}
       </div>
     </section>
   );
