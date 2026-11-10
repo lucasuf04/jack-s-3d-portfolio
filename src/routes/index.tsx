@@ -446,11 +446,6 @@ const FAQS = [
       "Para vídeos curtos (Reels, TikToks e Shorts), o prazo habitual é de 24 a 48 horas úteis por vídeo. Para vídeos em grande escala, trabalho normalmente com pacotes contínuos e entrego pelo menos 1 vídeo por dia. Já para vídeos longos de YouTube ou animações de motion complexas, o prazo varia entre 3 a 5 dias úteis, dependendo da extensão e do nível de efeitos visuais.",
   },
   {
-    question: "Como funciona o processo de alterações e aprovação?",
-    answer:
-      "A cada entrega, você recebe o vídeo para revisão com direito a até 2 rodadas completas de ajustes sem qualquer custo adicional. As alterações podem ser alinhadas via WhatsApp ou diretamente por marcações em ferramentas de revisão (como Frame.io).",
-  },
-  {
     question: "Você inclui sound design, legendas dinâmicas e trilha sonora?",
     answer:
       "Sim! Todos os projetos já incluem sound design completo (efeitos sonoros para enfatizar ações), trilhas sonoras profissionais livres de direitos autorais (royalty-free para não dar problema de copyright) e legendas animadas estilizadas para prender a atenção.",
@@ -458,12 +453,12 @@ const FAQS = [
   {
     question: "Como te envio o material bruto para edição?",
     answer:
-      "Você pode enviar os arquivos gravados diretamente através de pastas compartilhadas no Google Drive, Dropbox, WeTransfer, OneDrive ou Frame.io. Se tiver dúvidas, te oriento com o método mais simples.",
+      "Você pode enviar os arquivos gravados diretamente através de pastas compartilhadas no Google Drive, Dropbox ou WeTransfer. Se tiver dúvidas, te oriento com o método mais simples.",
   },
   {
     question: "Você trabalha com planos mensais ou apenas projetos avulsos?",
     answer:
-      "Trabalho com ambos os modelos! Tenho opções para projetos avulsos e também pacotes recorrentes com volume mensal (ex: 8, 12 ou 20 vídeos por mês), garantindo um valor mais acessível por vídeo e prioridade na fila de edição.",
+      "Trabalho com ambos os modelos! Tenho opções para projetos avulsos e também pacotes recorrentes com volume mensal, garantindo um valor mais acessível por vídeo e prioridade na fila de edição.",
   },
 ];
 
@@ -1154,7 +1149,7 @@ function FAQ() {
           Dúvidas
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-center text-sm text-muted-foreground sm:text-base">
-          Perguntas comuns sobre prazos, formatos de entrega, revisões e processo de trabalho.
+          Perguntas comuns sobre prazos, envio de arquivos, pacotes e processo de trabalho.
         </p>
 
         <div className="mt-12 space-y-4">
