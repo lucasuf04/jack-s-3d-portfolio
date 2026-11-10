@@ -53,6 +53,8 @@ import googledriveThumbV from "@/assets/googledrive-thumb-v.jpg";
 import socialDraJuliana from "@/assets/social-dra-juliana.jpg";
 import socialBuffetMunger from "@/assets/social-buffet-munger.jpg";
 import socialItte from "@/assets/social-itte.jpg";
+import socialRavensbury from "@/assets/social-ravensbury.jpg";
+import socialCardas from "@/assets/social-cardas.jpg";
 import ytMiniVslShadow from "@/assets/yt-mini-vsl-shadow.jpg";
 import ytKaizenVsl from "@/assets/yt-kaizen-vsl.jpg";
 import ytVslItte from "@/assets/yt-vsl-itte.jpg";
@@ -283,6 +285,30 @@ export const SOCIAL_EXAMPLES: VideoVariant[] = [
     tools: ["Premiere Pro", "After Effects"],
     metric: "Criativo de Alta Conversão",
   },
+  {
+    id: "ravensbury",
+    shortLabel: "Ravensbury",
+    title: "Ravensbury — Estética de Luxo & Joalheria",
+    subtitle: "Reels Internacional • Luxo & Detalhes",
+    description:
+      "Edição vertical em inglês com estética cinematográfica voltada para joalheria fina. Foco em nitidez dos detalhes da peça, color grading refinado, ritmo elegante e legendas dinâmicas discretas.",
+    verticalVideo: "/videos/social-ravensbury.mp4",
+    verticalThumb: socialRavensbury,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Estética de Luxo (EN)",
+  },
+  {
+    id: "cardas-01",
+    shortLabel: "Cardas",
+    title: "Cardas — Conteúdo Educativo & Cartões Blur",
+    subtitle: "Educação & Negócios • Reels Dinâmico",
+    description:
+      "Edição vertical de alta retenção com inserção de cartões translúcidos com blur, tipografia destacada em camadas, cortes precisos no ritmo da fala e legendas limpas de fácil leitura.",
+    verticalVideo: "/videos/social-cardas.mp4",
+    verticalThumb: socialCardas,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "60 FPS • Alta Retenção",
+  },
 ];
 
 export const YOUTUBE_EXAMPLES: VideoVariant[] = [
@@ -366,7 +392,7 @@ const PROJECTS: ProjectItem[] = [
     description:
       "Edição dinâmica e estratégica para Instagram Reels, YouTube Shorts, TikTok e outras plataformas. Cortes precisos, legendas animadas, efeitos visuais e ritmo pensado para manter a audiência engajada.",
     tools: ["Premiere Pro", "After Effects"],
-    metric: "3 Exemplos em 9:16 Vertical",
+    metric: "5 Exemplos em 9:16 Vertical",
     images: [socialDraJuliana],
     videoUrl: "/videos/social-dra-juliana.mp4",
     carouselItems: SOCIAL_EXAMPLES,
