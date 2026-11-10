@@ -140,9 +140,9 @@ const ABOUT_TEXT =
   "Sou editor de vídeo e motion designer, atuando há aproximadamente 3 anos na criação de conteúdos audiovisuais. Meu trabalho é focado em vídeos para mídias sociais, como Instagram, YouTube e outras plataformas digitais, além do desenvolvimento de motions profissionais e vídeos com o intuito de demonstrar funções de apps e SaaS. Busco transformar ideias em conteúdos dinâmicos, modernos e visualmente impactantes, combinando edição estratégica, animações, efeitos e técnicas de motion design para criar vídeos que prendam a atenção e transmitam mensagens com qualidade.";
 
 const TOOLS_TEXT =
-  "Trabalho com as principais ferramentas do mercado — Adobe Premiere Pro e After Effects — para desenvolver projetos criativos, dinâmicos e de alto nível.";
+  "Trabalho com as principais ferramentas do mercado — Adobe Premiere Pro, After Effects e Remotion — para desenvolver projetos criativos, dinâmicos e de alto nível.";
 
-const TOOLS = ["Premiere Pro", "After Effects"];
+const TOOLS = ["Premiere Pro", "After Effects", "Remotion"];
 
 const SERVICES = [
   {
@@ -193,7 +193,7 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
     verticalVideo: "/videos/mercadopago-vertical.mp4",
     horizontalThumb: mercadopagoThumbH,
     verticalThumb: mercadopagoThumbV,
-    tools: ["Premiere Pro", "After Effects"],
+    tools: ["Premiere Pro", "Remotion"],
     metric: "UI/UX Motion & Alta Conversão",
   },
   {
@@ -207,7 +207,7 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
     verticalVideo: "/videos/xp-vertical.mp4",
     horizontalThumb: xpThumbH,
     verticalThumb: xpThumbV,
-    tools: ["Premiere Pro", "After Effects"],
+    tools: ["Premiere Pro", "Remotion"],
     metric: "3D Motion & Sofisticação",
   },
   {
@@ -221,7 +221,7 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
     verticalVideo: "/videos/discord-vertical.mp4",
     horizontalThumb: discordThumbH,
     verticalThumb: discordThumbV,
-    tools: ["Premiere Pro", "After Effects"],
+    tools: ["Premiere Pro", "Remotion"],
     metric: "Interface Fluida & Sound Design",
   },
   {
@@ -235,7 +235,7 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
     verticalVideo: "/videos/googledrive-vertical.mp4",
     horizontalThumb: googledriveThumbH,
     verticalThumb: googledriveThumbV,
-    tools: ["Premiere Pro", "After Effects"],
+    tools: ["Premiere Pro", "Remotion"],
     metric: "Tutorial Dinâmico & UI Explainer",
   },
 ];
@@ -267,7 +267,7 @@ const PROJECTS: ProjectItem[] = [
     aspect: "horizontal",
     description:
       "Vídeos modernos focados em demonstrar produtos digitais, aplicativos e plataformas SaaS com máxima clareza. Motion graphics de interface (UI/UX), animação de telas, transições fluidas e destaques visuais de funcionalidades voltados para onboarding e conversão.",
-    tools: ["Premiere Pro", "After Effects"],
+    tools: ["Premiere Pro", "Remotion"],
     metric: "4 Exemplos em 2 Formatos (16:9 e 9:16)",
     images: [mercadopagoThumbH],
     videoUrl: "/videos/mercadopago-horizontal.mp4",
