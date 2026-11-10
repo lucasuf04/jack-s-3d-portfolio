@@ -1210,24 +1210,24 @@ function Contact() {
       </div>
 
       {/* Redes Sociais & Contato Direto */}
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <div className="mt-10 flex items-center justify-center gap-6">
         <a
           href={PORTFOLIO_CONFIG.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Instagram ${PORTFOLIO_CONFIG.instagramHandle}`}
-          className="inline-flex items-center gap-2.5 rounded-full border border-outline/30 px-5 py-2.5 text-sm text-muted-foreground transition-all hover:scale-105 hover:border-foreground hover:text-foreground"
+          title={PORTFOLIO_CONFIG.instagramHandle}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
         >
-          <Instagram className="h-4 w-4" />
-          <span>{PORTFOLIO_CONFIG.instagramHandle}</span>
+          <Instagram className="h-5 w-5" />
         </a>
         <a
           href={`mailto:${PORTFOLIO_CONFIG.email}`}
           aria-label={`Enviar email para ${PORTFOLIO_CONFIG.email}`}
-          className="inline-flex items-center gap-2.5 rounded-full border border-outline/30 px-5 py-2.5 text-sm text-muted-foreground transition-all hover:scale-105 hover:border-foreground hover:text-foreground"
+          title={PORTFOLIO_CONFIG.email}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-outline/30 text-muted-foreground transition-all hover:scale-110 hover:border-foreground hover:text-foreground"
         >
-          <Mail className="h-4 w-4" />
-          <span>{PORTFOLIO_CONFIG.email}</span>
+          <Mail className="h-5 w-5" />
         </a>
       </div>
 
