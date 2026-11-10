@@ -17,6 +17,10 @@ import {
   ChevronDown,
   Copy,
   SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
+  Monitor,
+  Smartphone,
 } from "lucide-react";
 
 import avatarHead from "@/assets/avatar-head.png";
@@ -38,6 +42,14 @@ import projectChrisThumb1 from "@/assets/project-chris-thumb1.jpg";
 import projectChrisThumb2 from "@/assets/project-chris-thumb2.jpg";
 import projectMercadoPago from "@/assets/project-mercadopago.jpg";
 import projectDiscord from "@/assets/project-discord.jpg";
+import mercadopagoThumbH from "@/assets/mercadopago-thumb-h.jpg";
+import mercadopagoThumbV from "@/assets/mercadopago-thumb-v.jpg";
+import xpThumbH from "@/assets/xp-thumb-h.jpg";
+import xpThumbV from "@/assets/xp-thumb-v.jpg";
+import discordThumbH from "@/assets/discord-thumb-h.jpg";
+import discordThumbV from "@/assets/discord-thumb-v.jpg";
+import googledriveThumbH from "@/assets/googledrive-thumb-h.jpg";
+import googledriveThumbV from "@/assets/googledrive-thumb-v.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -155,6 +167,79 @@ const SERVICES = [
   },
 ];
 
+export interface VideoVariant {
+  id: string;
+  shortLabel: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  horizontalVideo: string;
+  verticalVideo: string;
+  horizontalThumb: string;
+  verticalThumb: string;
+  tools: string[];
+  metric: string;
+}
+
+export const SAAS_EXAMPLES: VideoVariant[] = [
+  {
+    id: "mercadopago",
+    shortLabel: "Mercado Pago",
+    title: "Mercado Pago — Rendimento & Experiência Mobile",
+    subtitle: "Fintech & App Walkthrough",
+    description:
+      "Vídeo comercial de alta conversão demonstrando a experiência do aplicativo do Mercado Pago. Interface animada com motion graphics de telas, transições de dados e gráficos de rendimento para onboarding e aquisição de usuários.",
+    horizontalVideo: "/videos/mercadopago-horizontal.mp4",
+    verticalVideo: "/videos/mercadopago-vertical.mp4",
+    horizontalThumb: mercadopagoThumbH,
+    verticalThumb: mercadopagoThumbV,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "UI/UX Motion & Alta Conversão",
+  },
+  {
+    id: "xp",
+    shortLabel: "XP Investimentos",
+    title: "XP Investimentos — Cartão Visa Infinite & App",
+    subtitle: "Fintech & 3D Motion",
+    description:
+      "Apresentação comercial com animação elegante do cartão em 3D, telas dinâmicas do app de investimentos e destaque de benefícios exclusivos com ritmo moderno e sofisticado.",
+    horizontalVideo: "/videos/xp-horizontal.mp4",
+    verticalVideo: "/videos/xp-vertical.mp4",
+    horizontalThumb: xpThumbH,
+    verticalThumb: xpThumbV,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "3D Motion & Sofisticação",
+  },
+  {
+    id: "discord",
+    shortLabel: "Discord",
+    title: "Discord — Interface de Plataforma & Canais",
+    subtitle: "Software & SaaS Walkthrough",
+    description:
+      "Walkthrough dinâmico de software explorando navegação entre canais, micro-interações de chat, animações tipográficas e sound design sincronizado para demonstrar recursos com clareza e dinamismo.",
+    horizontalVideo: "/videos/discord-horizontal.mp4",
+    verticalVideo: "/videos/discord-vertical.mp4",
+    horizontalThumb: discordThumbH,
+    verticalThumb: discordThumbV,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Interface Fluida & Sound Design",
+  },
+  {
+    id: "googledrive",
+    shortLabel: "Google Drive",
+    title: "Google Drive — Resolução de Armazenamento",
+    subtitle: "Cloud SaaS & Tutorial Dinâmico",
+    description:
+      "Vídeo explicativo moderno com narrativa de problema e solução em plataforma de nuvem. Motion graphics de interface, animação de tela de computador e tutoriais dinâmicos de alta clareza.",
+    horizontalVideo: "/videos/googledrive-horizontal.mp4",
+    verticalVideo: "/videos/googledrive-vertical.mp4",
+    horizontalThumb: googledriveThumbH,
+    verticalThumb: googledriveThumbV,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Tutorial Dinâmico & UI Explainer",
+  },
+];
+
 export interface ProjectItem {
   id: string;
   kind: string;
@@ -166,6 +251,11 @@ export interface ProjectItem {
   metric: string;
   images: string[];
   videoUrl?: string;
+  hasCarousel?: boolean;
+  horizontalVideo?: string;
+  verticalVideo?: string;
+  horizontalThumb?: string;
+  verticalThumb?: string;
 }
 
 const PROJECTS: ProjectItem[] = [
@@ -178,9 +268,10 @@ const PROJECTS: ProjectItem[] = [
     description:
       "Vídeos modernos focados em demonstrar produtos digitais, aplicativos e plataformas SaaS com máxima clareza. Motion graphics de interface (UI/UX), animação de telas, transições fluidas e destaques visuais de funcionalidades voltados para onboarding e conversão.",
     tools: ["Premiere Pro", "After Effects"],
-    metric: "UI/UX Motion & Alta Conversão",
-    images: [projectMercadoPago],
-    videoUrl: "/videos/mercadopago-demo.mp4",
+    metric: "4 Exemplos em 2 Formatos (16:9 e 9:16)",
+    images: [mercadopagoThumbH],
+    videoUrl: "/videos/mercadopago-horizontal.mp4",
+    hasCarousel: true,
   },
   {
     id: "edicao-redes-sociais",
@@ -522,6 +613,246 @@ function Services() {
   );
 }
 
+/** Card Especial com Carrossel de Múltiplos Exemplos de Apps & SaaS (16:9 e 9:16) */
+function SaasCarouselCard({
+  project,
+  orderNumber,
+  onSelectProject,
+  topOffset,
+}: {
+  project: ProjectItem;
+  orderNumber: string;
+  onSelectProject: (proj: ProjectItem) => void;
+  topOffset: string;
+}) {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [aspect, setAspect] = useState<"horizontal" | "vertical">("horizontal");
+
+  const currentExample = SAAS_EXAMPLES[activeIdx];
+
+  const handleOpenVideo = () => {
+    onSelectProject({
+      id: `saas-${currentExample.id}-${aspect}`,
+      kind: `01. Apps & SaaS • ${currentExample.subtitle}`,
+      name: currentExample.title,
+      category: "saas",
+      aspect: aspect,
+      description: currentExample.description,
+      tools: currentExample.tools,
+      metric: aspect === "vertical" ? "9:16 Vertical (Reels/Shorts)" : "16:9 Widescreen (Demo)",
+      images: [aspect === "vertical" ? currentExample.verticalThumb : currentExample.horizontalThumb],
+      videoUrl: aspect === "vertical" ? currentExample.verticalVideo : currentExample.horizontalVideo,
+      horizontalVideo: currentExample.horizontalVideo,
+      verticalVideo: currentExample.verticalVideo,
+      horizontalThumb: currentExample.horizontalThumb,
+      verticalThumb: currentExample.verticalThumb,
+    });
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveIdx((prev) => (prev === 0 ? SAAS_EXAMPLES.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveIdx((prev) => (prev === SAAS_EXAMPLES.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <article
+      className="group sticky rounded-[2.5rem] border border-outline bg-background p-5 transition-all duration-300 hover:border-foreground/40 sm:p-10 shadow-2xl"
+      style={{ top: topOffset }}
+    >
+      <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="flex items-start gap-4 sm:gap-8">
+          <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
+            {orderNumber}
+          </span>
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-surface/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border border-outline/30">
+                {project.kind}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold text-primary">
+                <Sparkles className="h-3 w-3" />
+                {currentExample.metric}
+              </span>
+              <span className="rounded-full bg-foreground/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-foreground border border-outline/30">
+                {activeIdx + 1} de {SAAS_EXAMPLES.length} Exemplos
+              </span>
+            </div>
+
+            <h3 className="mt-3 text-xl font-bold uppercase sm:text-3xl text-foreground">
+              {currentExample.title}
+            </h3>
+
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base leading-relaxed">
+              {currentExample.description}
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {currentExample.tools.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-md border border-outline/20 bg-card px-2.5 py-1 text-[11px] text-muted-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleOpenVideo}
+          className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
+        >
+          <Play className="h-4 w-4 fill-current" />
+          <span>Assistir Vídeo ({aspect === "horizontal" ? "16:9" : "9:16"})</span>
+        </button>
+      </header>
+
+      {/* Barra de Controle: Carrossel de Apps + Alternador de Formato (Horizontal / Vertical) */}
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-outline/30 bg-surface/5 p-3 sm:px-6 sm:py-4">
+        {/* Seletor de Apps (Abas/Pills do Carrossel) */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+          {SAAS_EXAMPLES.map((ex, idx) => (
+            <button
+              key={ex.id}
+              type="button"
+              onClick={() => setActiveIdx(idx)}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+                activeIdx === idx
+                  ? "bg-foreground text-background shadow-md scale-105"
+                  : "border border-outline/30 text-muted-foreground hover:border-foreground hover:text-foreground"
+              }`}
+            >
+              {ex.shortLabel}
+            </button>
+          ))}
+        </div>
+
+        {/* Alternador de Proporção: 16:9 Horizontal vs 9:16 Vertical */}
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold hidden sm:inline">
+            Formato:
+          </span>
+          <div className="inline-flex rounded-full border border-outline/30 bg-background p-1">
+            <button
+              type="button"
+              onClick={() => setAspect("horizontal")}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                aspect === "horizontal"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Monitor className="h-3.5 w-3.5" />
+              <span>16:9 Horizontal</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setAspect("vertical")}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                aspect === "vertical"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Smartphone className="h-3.5 w-3.5" />
+              <span>9:16 Vertical</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Área da Prévia com Botões de Navegação < e > */}
+      <div className="relative mt-6 flex items-center justify-center">
+        {/* Botão Anterior */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label="Vídeo anterior"
+          className="absolute left-2 sm:-left-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-outline/40 bg-background/90 text-foreground backdrop-blur-md shadow-xl transition-all hover:scale-110 hover:border-foreground cursor-pointer"
+        >
+          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+        </button>
+
+        {/* Botão Próximo */}
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label="Próximo vídeo"
+          className="absolute right-2 sm:-right-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-outline/40 bg-background/90 text-foreground backdrop-blur-md shadow-xl transition-all hover:scale-110 hover:border-foreground cursor-pointer"
+        >
+          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+        </button>
+
+        {/* Prévia do Vídeo (Muda proporcionalmente para 16:9 ou 9:16) */}
+        <div
+          onClick={handleOpenVideo}
+          className="flex justify-center w-full cursor-pointer"
+        >
+          {aspect === "vertical" ? (
+            <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
+              <img
+                key={`vert-${activeIdx}`}
+                src={currentExample.verticalThumb}
+                alt={`${currentExample.title} — prévia vertical`}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
+                  <Play className="h-8 w-8 fill-white pl-1 text-white" />
+                </div>
+                <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
+                  Assistir Versão Vertical (9:16)
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
+              <img
+                key={`horiz-${activeIdx}`}
+                src={currentExample.horizontalThumb}
+                alt={`${currentExample.title} — prévia horizontal`}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
+                  <Play className="h-8 w-8 fill-white pl-1 text-white" />
+                </div>
+                <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">
+                  Assistir Versão Widescreen (16:9)
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Indicadores de Paginação (Dots) */}
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {SAAS_EXAMPLES.map((_, dotIdx) => (
+          <button
+            key={dotIdx}
+            type="button"
+            onClick={() => setActiveIdx(dotIdx)}
+            aria-label={`Ir para exemplo ${dotIdx + 1}`}
+            className={`h-2 rounded-full transition-all cursor-pointer ${
+              activeIdx === dotIdx ? "w-8 bg-foreground" : "w-2 bg-muted-foreground/30 hover:bg-foreground/60"
+            }`}
+          />
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) => void }) {
   const [activeTab, setActiveTab] = useState<string>("all");
 
@@ -564,94 +895,104 @@ function Projects({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
       </div>
 
       <div className="mx-auto mt-16 max-w-6xl space-y-10">
-        {filteredProjects.map((p, i) => (
-          <article
-            key={p.id}
-            className="group sticky rounded-[2.5rem] border border-outline bg-background p-5 transition-all duration-300 hover:border-foreground/40 sm:p-10 shadow-2xl"
-            style={{ top: `${5 + (i % 6) * 1.5}rem` }}
-          >
-            <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-              <div className="flex items-start gap-4 sm:gap-8">
-                <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
-                  {String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-surface/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border border-outline/30">
-                      {p.kind}
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold text-primary">
-                      <Sparkles className="h-3 w-3" />
-                      {p.metric}
-                    </span>
-                  </div>
-                  <h3 className="mt-3 text-xl font-bold uppercase sm:text-3xl text-foreground">
-                    {p.name}
-                  </h3>
-                  <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base leading-relaxed">
-                    {p.description}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tools.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md border border-outline/20 bg-card px-2.5 py-1 text-[11px] text-muted-foreground"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => onSelectProject(p)}
-                className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
-              >
-                <Play className="h-4 w-4 fill-current" />
-                <span>Assistir Vídeo</span>
-              </button>
-            </header>
-
-            {/* Prévia do Projeto: Respeita a proporção real (Vertical 9:16 ou Widescreen 16:9) */}
-            <div
-              onClick={() => onSelectProject(p)}
-              className="mt-8 flex justify-center cursor-pointer"
+        {filteredProjects.map((p, i) =>
+          p.hasCarousel ? (
+            <SaasCarouselCard
+              key={p.id}
+              project={p}
+              orderNumber={String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
+              onSelectProject={onSelectProject}
+              topOffset={`${5 + (i % 6) * 1.5}rem`}
+            />
+          ) : (
+            <article
+              key={p.id}
+              className="group sticky rounded-[2.5rem] border border-outline bg-background p-5 transition-all duration-300 hover:border-foreground/40 sm:p-10 shadow-2xl"
+              style={{ top: `${5 + (i % 6) * 1.5}rem` }}
             >
-              {p.aspect === "vertical" ? (
-                <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
-                  <img
-                    src={p.images[0]}
-                    alt={`${p.name} — prévia`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                  />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                      <Play className="h-8 w-8 fill-white pl-1 text-white" />
+              <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="flex items-start gap-4 sm:gap-8">
+                  <span className="font-display-black text-6xl sm:text-8xl text-muted-foreground/50">
+                    {String(PROJECTS.indexOf(p) + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-surface/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border border-outline/30">
+                        {p.kind}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold text-primary">
+                        <Sparkles className="h-3 w-3" />
+                        {p.metric}
+                      </span>
                     </div>
-                    <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
+                    <h3 className="mt-3 text-xl font-bold uppercase sm:text-3xl text-foreground">
+                      {p.name}
+                    </h3>
+                    <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base leading-relaxed">
+                      {p.description}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {p.tools.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md border border-outline/20 bg-card px-2.5 py-1 text-[11px] text-muted-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
-                  <img
-                    src={p.images[0]}
-                    alt={`${p.name} — prévia`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                  />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
-                      <Play className="h-8 w-8 fill-white pl-1 text-white" />
+                <button
+                  type="button"
+                  onClick={() => onSelectProject(p)}
+                  className="mt-4 sm:mt-0 inline-flex items-center justify-center gap-2 shrink-0 rounded-full border-2 border-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:bg-foreground hover:text-background sm:px-8 sm:py-4 sm:text-sm cursor-pointer"
+                >
+                  <Play className="h-4 w-4 fill-current" />
+                  <span>Assistir Vídeo</span>
+                </button>
+              </header>
+
+              {/* Prévia do Projeto: Respeita a proporção real (Vertical 9:16 ou Widescreen 16:9) */}
+              <div
+                onClick={() => onSelectProject(p)}
+                className="mt-8 flex justify-center cursor-pointer"
+              >
+                {p.aspect === "vertical" ? (
+                  <div className="group/thumb relative aspect-[9/16] w-full max-w-[280px] sm:max-w-[340px] overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
+                    <img
+                      src={p.images[0]}
+                      alt={`${p.name} — prévia`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                    />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
+                        <Play className="h-8 w-8 fill-white pl-1 text-white" />
+                      </div>
+                      <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
                     </div>
-                    <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
                   </div>
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
+                ) : (
+                  <div className="group/thumb relative aspect-video w-full overflow-hidden rounded-[2rem] border border-outline/30 bg-black shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
+                    <img
+                      src={p.images[0]}
+                      alt={`${p.name} — prévia`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                    />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover/thumb:opacity-100">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/30 backdrop-blur-md transition-transform duration-300 group-hover/thumb:scale-110">
+                        <Play className="h-8 w-8 fill-white pl-1 text-white" />
+                      </div>
+                      <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white">Assistir Vídeo</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </article>
+          )
+        )}
       </div>
     </section>
   );
@@ -826,7 +1167,32 @@ function VideoModal({
 }) {
   if (!project) return null;
 
-  const isVertical = project.aspect === "vertical";
+  const [modalAspect, setModalAspect] = useState<"horizontal" | "vertical">(
+    project.aspect || "horizontal"
+  );
+
+  useEffect(() => {
+    if (project) {
+      setModalAspect(project.aspect || "horizontal");
+    }
+  }, [project]);
+
+  const hasBothFormats = !!(project.horizontalVideo && project.verticalVideo);
+  const isVertical = hasBothFormats
+    ? modalAspect === "vertical"
+    : project.aspect === "vertical";
+
+  const currentVideoUrl = hasBothFormats
+    ? modalAspect === "vertical"
+      ? project.verticalVideo
+      : project.horizontalVideo
+    : project.videoUrl;
+
+  const currentPoster = hasBothFormats
+    ? modalAspect === "vertical"
+      ? project.verticalThumb || project.images[0]
+      : project.horizontalThumb || project.images[0]
+    : project.images[0];
 
   return (
     <div
@@ -865,26 +1231,62 @@ function VideoModal({
           <h3 className="mt-3 text-2xl font-bold uppercase sm:text-3xl text-foreground">
             {project.name}
           </h3>
+
+          {/* Seletor de Formato dentro do Modal (se disponível) */}
+          {hasBothFormats && (
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                Alternar Formato:
+              </span>
+              <div className="inline-flex rounded-full border border-outline/30 bg-background p-1">
+                <button
+                  type="button"
+                  onClick={() => setModalAspect("horizontal")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold cursor-pointer transition-all ${
+                    modalAspect === "horizontal"
+                      ? "bg-foreground text-background shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Monitor className="h-3.5 w-3.5" />
+                  <span>16:9 Horizontal</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalAspect("vertical")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold cursor-pointer transition-all ${
+                    modalAspect === "vertical"
+                      ? "bg-foreground text-background shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Smartphone className="h-3.5 w-3.5" />
+                  <span>9:16 Vertical</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Player de Vídeo */}
         <div className="mt-6 overflow-hidden rounded-2xl bg-black border border-outline/30 flex justify-center items-center">
-          {project.videoUrl ? (
-            project.videoUrl.endsWith(".mp4") || project.videoUrl.startsWith("/videos/") ? (
+          {currentVideoUrl ? (
+            currentVideoUrl.endsWith(".mp4") || currentVideoUrl.startsWith("/videos/") ? (
               <div className={`relative w-full ${isVertical ? "max-w-xs sm:max-w-sm mx-auto" : "aspect-video"}`}>
                 <video
-                  src={project.videoUrl}
+                  key={`${currentVideoUrl}-${modalAspect}`}
+                  src={currentVideoUrl}
                   controls
                   autoPlay
                   playsInline
-                  poster={project.images[0]}
+                  poster={currentPoster}
                   className="w-full max-h-[72vh] object-contain rounded-xl mx-auto shadow-2xl"
                 />
               </div>
             ) : (
               <div className={`relative w-full ${isVertical ? "aspect-[9/16] max-w-sm mx-auto" : "aspect-video"}`}>
                 <iframe
-                  src={project.videoUrl}
+                  src={currentVideoUrl}
                   title={project.name}
                   className="h-full w-full border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
