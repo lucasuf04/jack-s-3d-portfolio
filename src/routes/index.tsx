@@ -443,7 +443,7 @@ const FAQS = [
   {
     question: "Qual é o prazo médio de entrega dos vídeos?",
     answer:
-      "Para vídeos curtos (Reels, TikToks e Shorts), o prazo habitual é de 24 a 48 horas úteis por vídeo. Para vídeos longos de YouTube ou animações de motion complexas, o prazo varia entre 3 a 5 dias úteis, dependendo da extensão e do nível de efeitos visuais.",
+      "Para vídeos curtos (Reels, TikToks e Shorts), o prazo habitual é de 24 a 48 horas úteis por vídeo. Para vídeos em grande escala, trabalho normalmente com pacotes contínuos e entrego pelo menos 1 vídeo por dia. Já para vídeos longos de YouTube ou animações de motion complexas, o prazo varia entre 3 a 5 dias úteis, dependendo da extensão e do nível de efeitos visuais.",
   },
   {
     question: "Como funciona o processo de alterações e aprovação?",
