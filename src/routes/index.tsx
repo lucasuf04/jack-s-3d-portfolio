@@ -97,44 +97,6 @@ const NAV = [
   { label: "Contato", href: "#contact" },
 ];
 
-const SHOWCASE = [
-  {
-    src: projectMercadoPago,
-    alt: "Demonstração de Apps & Plataformas SaaS",
-    title: "Demonstração de Apps & Plataformas SaaS",
-    tag: "01 • Apps & SaaS",
-    videoUrl: "/videos/mercadopago-demo.mp4",
-  },
-  {
-    src: socialDraJuliana,
-    alt: "Edição de Vídeos para Redes Sociais",
-    title: "Edição de Vídeos para Redes Sociais",
-    tag: "02 • Redes Sociais",
-    videoUrl: "/videos/social-dra-juliana.mp4",
-  },
-  {
-    src: showcaseMotion,
-    alt: "Motion Design Profissional",
-    title: "Motion Design Profissional",
-    tag: "03 • Motion Design",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
-  },
-  {
-    src: ytMiniVslShadow,
-    alt: "Edição para YouTube & Podcasts",
-    title: "Edição para YouTube & Podcasts",
-    tag: "04 • YouTube & Podcasts",
-    videoUrl: "/videos/yt-mini-vsl-shadow.mp4",
-  },
-  {
-    src: projectChrisThumb1,
-    alt: "Edição de Conteúdo em Escala",
-    title: "Edição de Conteúdo em Escala",
-    tag: "05 • Conteúdo em Escala",
-    videoUrl: "/videos/chris-conteudo-escala.mp4",
-  },
-];
-
 const ABOUT_TEXT =
   "Sou editor de vídeo e motion designer, atuando há aproximadamente 3 anos na criação de conteúdos audiovisuais. Meu trabalho é focado em vídeos para mídias sociais, como Instagram, YouTube e outras plataformas digitais, além do desenvolvimento de motions profissionais e vídeos com o intuito de demonstrar funções de apps e SaaS. Busco transformar ideias em conteúdos dinâmicos, modernos e visualmente impactantes, combinando edição estratégica, animações, efeitos e técnicas de motion design para criar vídeos que prendam a atenção e transmitam mensagens com qualidade.";
 
@@ -430,6 +392,72 @@ const PROJECTS: ProjectItem[] = [
   },
 ];
 
+function buildVariantProject(
+  project: ProjectItem,
+  variant: VideoVariant,
+  preferredAspect?: "horizontal" | "vertical"
+): ProjectItem {
+  const hasH = Boolean(variant.horizontalVideo && variant.horizontalThumb);
+  const hasV = Boolean(variant.verticalVideo && variant.verticalThumb);
+  const hasBoth = hasH && hasV;
+  const aspect: "horizontal" | "vertical" = hasBoth
+    ? (preferredAspect ?? project.aspect ?? "horizontal")
+    : hasV
+      ? "vertical"
+      : "horizontal";
+  const thumb =
+    (aspect === "vertical" ? variant.verticalThumb : variant.horizontalThumb) ??
+    project.images[0] ??
+    "";
+  const video =
+    (aspect === "vertical" ? variant.verticalVideo : variant.horizontalVideo) ?? project.videoUrl;
+
+  return {
+    id: `${project.id}-${variant.id}-${aspect}`,
+    kind: project.kind,
+    name: project.name,
+    category: project.category,
+    aspect,
+    description: variant.description,
+    tools: variant.tools,
+    metric: hasBoth ? (aspect === "vertical" ? "9:16 Vertical" : "16:9 Horizontal") : variant.metric,
+    images: [thumb],
+    videoUrl: video,
+    horizontalVideo: variant.horizontalVideo,
+    verticalVideo: variant.verticalVideo,
+    horizontalThumb: variant.horizontalThumb,
+    verticalThumb: variant.verticalThumb,
+  };
+}
+
+interface ShowcaseRef {
+  projectId: string;
+  variantId?: string | undefined;
+  aspect?: "horizontal" | "vertical" | undefined;
+  tag: string;
+}
+
+const SHOWCASE_ROWS: ShowcaseRef[][] = [
+  [
+    { projectId: "demo-apps-saas", variantId: "mercadopago", aspect: "horizontal", tag: "01 • Apps & SaaS" },
+    { projectId: "edicao-redes-sociais", variantId: "criativo-itte", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-youtube-podcasts", variantId: "mini-vsl-shadow", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
+    { projectId: "edicao-redes-sociais", variantId: "dra-juliana", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "demo-apps-saas", variantId: "discord", aspect: "horizontal", tag: "01 • Apps & SaaS" },
+    { projectId: "edicao-redes-sociais", variantId: "buffet-munger", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "motion-design-profissional", tag: "03 • Motion Design" },
+  ],
+  [
+    { projectId: "demo-apps-saas", variantId: "googledrive", aspect: "horizontal", tag: "01 • Apps & SaaS" },
+    { projectId: "edicao-redes-sociais", variantId: "ravensbury", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "demo-apps-saas", variantId: "xp", aspect: "horizontal", tag: "01 • Apps & SaaS" },
+    { projectId: "edicao-redes-sociais", variantId: "cardas-01", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-youtube-podcasts", variantId: "vsl-itte", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
+    { projectId: "edicao-conteudo-escala", tag: "05 • Edições básicas para redes" },
+    { projectId: "edicao-youtube-podcasts", variantId: "kaizen-vsl", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
+  ],
+];
+
 const FAQS = [
   {
     question: "Qual é o prazo médio de entrega dos vídeos?",
@@ -574,46 +602,62 @@ function Hero() {
   );
 }
 
+function resolveShowcaseTile(ref: ShowcaseRef) {
+  const project = PROJECTS.find((p) => p.id === ref.projectId);
+  if (!project) return null;
+  const variant = ref.variantId
+    ? project.carouselItems?.find((v) => v.id === ref.variantId)
+    : undefined;
+  const target = variant ? buildVariantProject(project, variant, ref.aspect) : project;
+  const src = target.images[0];
+  if (!src) return null;
+  return { src, alt: target.name, tag: ref.tag, target };
+}
+
 function Showcase({ onSelectProject }: { onSelectProject: (proj: ProjectItem) => void }) {
-  const row = [...SHOWCASE, ...SHOWCASE];
+  const anims = ["animate-marquee-left", "animate-marquee-right"] as const;
+
   return (
     <section aria-label="Trabalhos em destaque" className="space-y-4 overflow-hidden py-10">
-      {["animate-marquee-left", "animate-marquee-right"].map((anim, r) => (
-        <div key={anim} className={`flex w-max gap-4 ${anim} hover:[animation-play-state:paused]`}>
-          {(r ? [...row].reverse() : row).map((item, i) => (
-            <div
-              key={i}
-              onClick={() => {
-                const firstWord = item.title.split(" ")[0] ?? "";
-                const match =
-                  PROJECTS.find((p) => p.name === item.title) ??
-                  (firstWord ? PROJECTS.find((p) => p.name.includes(firstWord)) : undefined) ??
-                  PROJECTS[0];
-                if (match) onSelectProject(match);
-              }}
-              className="group relative h-40 w-auto cursor-pointer overflow-hidden rounded-xl border border-outline/20 sm:h-56"
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                loading="lazy"
-                width={755}
-                height={459}
-                className="h-full w-auto object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-4 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md">
-                  <Play className="h-6 w-6 fill-white pl-0.5" />
-                </div>
-                <span className="mt-2 text-xs font-semibold uppercase tracking-wider text-white">
-                  {item.title}
-                </span>
-                <span className="mt-1 text-[10px] text-muted-foreground uppercase">{item.tag}</span>
+      {SHOWCASE_ROWS.map((refs, rowIdx) => {
+        const tiles = refs
+          .map(resolveShowcaseTile)
+          .filter((tile): tile is NonNullable<typeof tile> => Boolean(tile));
+
+        return (
+          <div
+            key={rowIdx}
+            className={`flex w-max ${anims[rowIdx] ?? "animate-marquee-left"} hover:[animation-play-state:paused]`}
+          >
+            {[0, 1].map((dup) => (
+              <div key={dup} aria-hidden={dup === 1} className="flex shrink-0 gap-4 pr-4">
+                {tiles.map((tile, i) => (
+                  <div
+                    key={`${rowIdx}-${dup}-${i}`}
+                    onClick={() => onSelectProject(tile.target)}
+                    className="group relative h-40 w-auto shrink-0 cursor-pointer overflow-hidden rounded-xl border border-outline/20 sm:h-56"
+                  >
+                    <img
+                      src={tile.src}
+                      alt={tile.alt}
+                      loading="lazy"
+                      className="h-full w-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/55 opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-2 text-center">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/25 text-white backdrop-blur-md">
+                        <Play className="h-5 w-5 fill-white pl-0.5" />
+                      </div>
+                      <span className="mt-2 px-1 text-[10px] font-semibold uppercase tracking-wider text-white/90 leading-tight">
+                        {tile.tag}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
-      ))}
+            ))}
+          </div>
+        );
+      })}
     </section>
   );
 }
@@ -771,26 +815,7 @@ function ProjectCard({
       onSelectProject(project);
       return;
     }
-    onSelectProject({
-      id: `${project.id}-${currentExample.id}-${effectiveAspect}`,
-      kind: project.kind,
-      name: project.name,
-      category: project.category,
-      aspect: effectiveAspect,
-      description: currentExample.description,
-      tools: currentExample.tools,
-      metric: hasBothFormats
-        ? effectiveAspect === "vertical"
-          ? "9:16 Vertical"
-          : "16:9 Horizontal"
-        : currentExample.metric,
-      images: [currentThumb],
-      videoUrl: currentVideo,
-      horizontalVideo: currentExample.horizontalVideo,
-      verticalVideo: currentExample.verticalVideo,
-      horizontalThumb: currentExample.horizontalThumb,
-      verticalThumb: currentExample.verticalThumb,
-    });
+    onSelectProject(buildVariantProject(project, currentExample, effectiveAspect));
   };
 
   const handlePrev = (e: React.MouseEvent) => {
