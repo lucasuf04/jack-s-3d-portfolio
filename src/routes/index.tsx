@@ -53,6 +53,10 @@ import socialCardas from "@/assets/social-cardas.jpg";
 import ytMiniVslShadow from "@/assets/yt-mini-vsl-shadow.jpg";
 import ytKaizenVsl from "@/assets/yt-kaizen-vsl.jpg";
 import ytVslItte from "@/assets/yt-vsl-itte.jpg";
+import motionDemoClouds from "@/assets/motion-demo-clouds.jpg";
+import motionDemoCrt from "@/assets/motion-demo-crt.jpg";
+import motionDemoUi from "@/assets/motion-demo-ui.jpg";
+import motionDemoShadow from "@/assets/motion-demo-shadow.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -355,13 +359,13 @@ const PROJECTS: ProjectItem[] = [
     kind: "Serviço 03 — Motion Design",
     name: "Motion Design Profissional",
     category: "motion",
-    aspect: "horizontal",
+    aspect: "vertical",
     description:
       "Criação de animações modernas e profissionais, com elementos gráficos, transições, tipografia animada e efeitos visuais que dão mais personalidade e impacto aos vídeos.",
-    tools: ["After Effects"],
+    tools: ["Premiere Pro", "After Effects"],
     metric: "Design de Alto Impacto Visual",
-    images: [showcaseMotion],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    images: [motionDemoClouds],
+    videoUrl: "/videos/motion-demonstracao-01.mp4",
   },
   {
     id: "edicao-youtube-podcasts",
@@ -434,27 +438,31 @@ interface ShowcaseRef {
   projectId: string;
   variantId?: string | undefined;
   aspect?: "horizontal" | "vertical" | undefined;
+  imageSrc?: string | undefined;
   tag: string;
 }
 
 const SHOWCASE_ROWS: ShowcaseRef[][] = [
   [
     { projectId: "demo-apps-saas", variantId: "mercadopago", aspect: "horizontal", tag: "01 • Apps & SaaS" },
-    { projectId: "edicao-redes-sociais", variantId: "criativo-itte", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "motion-design-profissional", imageSrc: motionDemoClouds, tag: "03 • Motion Design" },
     { projectId: "edicao-youtube-podcasts", variantId: "mini-vsl-shadow", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
-    { projectId: "edicao-redes-sociais", variantId: "dra-juliana", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-redes-sociais", variantId: "criativo-itte", aspect: "vertical", tag: "02 • Redes Sociais" },
     { projectId: "demo-apps-saas", variantId: "discord", aspect: "horizontal", tag: "01 • Apps & SaaS" },
+    { projectId: "motion-design-profissional", imageSrc: motionDemoCrt, tag: "03 • Motion Design" },
+    { projectId: "edicao-redes-sociais", variantId: "dra-juliana", aspect: "vertical", tag: "02 • Redes Sociais" },
     { projectId: "edicao-redes-sociais", variantId: "buffet-munger", aspect: "vertical", tag: "02 • Redes Sociais" },
-    { projectId: "motion-design-profissional", tag: "03 • Motion Design" },
   ],
   [
     { projectId: "demo-apps-saas", variantId: "googledrive", aspect: "horizontal", tag: "01 • Apps & SaaS" },
-    { projectId: "edicao-redes-sociais", variantId: "ravensbury", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "motion-design-profissional", imageSrc: motionDemoUi, tag: "03 • Motion Design" },
     { projectId: "demo-apps-saas", variantId: "xp", aspect: "horizontal", tag: "01 • Apps & SaaS" },
-    { projectId: "edicao-redes-sociais", variantId: "cardas-01", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-redes-sociais", variantId: "ravensbury", aspect: "vertical", tag: "02 • Redes Sociais" },
     { projectId: "edicao-youtube-podcasts", variantId: "vsl-itte", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
-    { projectId: "edicao-conteudo-escala", tag: "05 • Edições básicas para redes" },
+    { projectId: "motion-design-profissional", imageSrc: motionDemoShadow, tag: "03 • Motion Design" },
     { projectId: "edicao-youtube-podcasts", variantId: "kaizen-vsl", aspect: "horizontal", tag: "04 • YouTube & Podcasts" },
+    { projectId: "edicao-redes-sociais", variantId: "cardas-01", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-conteudo-escala", tag: "05 • Edições básicas para redes" },
   ],
 ];
 
@@ -608,9 +616,10 @@ function resolveShowcaseTile(ref: ShowcaseRef) {
   const variant = ref.variantId
     ? project.carouselItems?.find((v) => v.id === ref.variantId)
     : undefined;
-  const target = variant ? buildVariantProject(project, variant, ref.aspect) : project;
-  const src = target.images[0];
+  const baseTarget = variant ? buildVariantProject(project, variant, ref.aspect) : project;
+  const src = ref.imageSrc ?? baseTarget.images[0];
   if (!src) return null;
+  const target = ref.imageSrc ? { ...baseTarget, images: [ref.imageSrc] } : baseTarget;
   return { src, alt: target.name, tag: ref.tag, target };
 }
 
@@ -640,7 +649,6 @@ function Showcase({ onSelectProject }: { onSelectProject: (proj: ProjectItem) =>
                     <img
                       src={tile.src}
                       alt={tile.alt}
-                      loading="lazy"
                       className="h-full w-auto object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/55 opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-2 text-center">
