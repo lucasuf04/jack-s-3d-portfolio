@@ -47,6 +47,7 @@ import googledriveThumbH from "@/assets/googledrive-thumb-h.jpg";
 import googledriveThumbV from "@/assets/googledrive-thumb-v.jpg";
 import socialDraJuliana from "@/assets/social-dra-juliana.jpg";
 import socialBuffetMunger from "@/assets/social-buffet-munger.jpg";
+import socialChris74 from "@/assets/social-chris-74.jpg";
 import socialItte from "@/assets/social-itte.jpg";
 import socialRavensbury from "@/assets/social-ravensbury.jpg";
 import socialCardas from "@/assets/social-cardas.jpg";
@@ -207,6 +208,30 @@ export const SAAS_EXAMPLES: VideoVariant[] = [
 
 export const SOCIAL_EXAMPLES: VideoVariant[] = [
   {
+    id: "buffet-munger",
+    shortLabel: "Carol Paiffer",
+    title: "Carol Paiffer — Storytelling Visual & Finanças",
+    subtitle: "Reels de Autoridade • Shark Tank Brasil",
+    description:
+      "Edição narrativa vertical com Carol Paiffer (Shark Tank Brasil) sobre a filosofia de investimentos de Warren Buffett e Charlie Munger. Efeitos de luz, sound design imersivo, tipografia em movimento e ganchos visuais poderosos de retenção.",
+    verticalVideo: "/videos/social-buffet-munger.mp4",
+    verticalThumb: socialBuffetMunger,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Carol Paiffer (Shark Tank)",
+  },
+  {
+    id: "chris-74",
+    shortLabel: "Chris 74",
+    title: "Chris — Emagrecimento & Retenção no Ritmo da Fala",
+    subtitle: "Reels Dinâmico • Saúde & Fitness",
+    description:
+      "Edição vertical dinâmica para Instagram Reels focada em retenção e ritmo acelerado. Legendas animadas com cores de destaque e brilho, cortes no tempo exato da fala, sound design pontual e gancho inicial forte.",
+    verticalVideo: "/videos/social-chris-74.mp4",
+    verticalThumb: socialChris74,
+    tools: ["Premiere Pro", "After Effects"],
+    metric: "Ritmo Ágil & Legendas Animadas",
+  },
+  {
     id: "dra-juliana",
     shortLabel: "Dra. Juliana",
     title: "Dra. Juliana — Conteúdo Médico de Alta Retenção",
@@ -217,18 +242,6 @@ export const SOCIAL_EXAMPLES: VideoVariant[] = [
     verticalThumb: socialDraJuliana,
     tools: ["Premiere Pro", "After Effects"],
     metric: "Autoridade & Legendas Dinâmicas",
-  },
-  {
-    id: "buffet-munger",
-    shortLabel: "Buffet & Munger",
-    title: "Buffet & Munger — Storytelling Visual & Finanças",
-    subtitle: "Reels Cinematográfico • Storytelling",
-    description:
-      "Edição narrativa vertical sobre Warren Buffett e Charlie Munger com estética neon e estilo cinematográfico. Efeitos de luz, sound design imersivo, tipografia em movimento e ganchos visuais poderosos de retenção.",
-    verticalVideo: "/videos/social-buffet-munger.mp4",
-    verticalThumb: socialBuffetMunger,
-    tools: ["Premiere Pro", "After Effects"],
-    metric: "Storytelling & Visual Neon",
   },
   {
     id: "criativo-itte",
@@ -349,9 +362,9 @@ const PROJECTS: ProjectItem[] = [
     description:
       "Edição dinâmica e estratégica para Instagram Reels, YouTube Shorts, TikTok e outras plataformas. Cortes precisos, legendas animadas, efeitos visuais e ritmo pensado para manter a audiência engajada.",
     tools: ["Premiere Pro", "After Effects"],
-    metric: "5 Exemplos em 9:16 Vertical",
-    images: [socialDraJuliana],
-    videoUrl: "/videos/social-dra-juliana.mp4",
+    metric: "6 Exemplos em 9:16 Vertical",
+    images: [socialBuffetMunger],
+    videoUrl: "/videos/social-buffet-munger.mp4",
     carouselItems: SOCIAL_EXAMPLES,
   },
   {
@@ -452,6 +465,7 @@ const SHOWCASE_ROWS: ShowcaseRef[][] = [
     { projectId: "motion-design-profissional", imageSrc: motionDemoCrt, tag: "03 • Motion Design" },
     { projectId: "edicao-redes-sociais", variantId: "dra-juliana", aspect: "vertical", tag: "02 • Redes Sociais" },
     { projectId: "edicao-redes-sociais", variantId: "buffet-munger", aspect: "vertical", tag: "02 • Redes Sociais" },
+    { projectId: "edicao-redes-sociais", variantId: "chris-74", aspect: "vertical", tag: "02 • Redes Sociais" },
   ],
   [
     { projectId: "demo-apps-saas", variantId: "googledrive", aspect: "horizontal", tag: "01 • Apps & SaaS" },
